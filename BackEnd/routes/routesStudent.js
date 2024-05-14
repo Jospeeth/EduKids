@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ProfesorController } from "../controllers/ProfesorController.js";
+import { StudentsController } from "../controllers/studentsController.js";
 
-export const foodsRouter = Router();
+export const routersStudent = Router();
 
-foodsRouter.get("/", ProfesorController.getAll);
+
 

@@ -1,0 +1,21 @@
+###
+POST http://localhost:1234/profesor/signup
+Content-Type: application/json
+
+{
+"nombre": "jose" , 
+"apellido": "pertuz", 
+"correo": "japertuzd@gmail.com", 
+"clave": "194757616", 
+"sexo": "Masculino", 
+"fecha_nac": "03-03-2004", 
+"celular":"3126767998"
+}
+
+###
+post http://localhost:1234/profesor/login
+Content-Type: application/json
+{
+    "correo": "japertuzd@gmail.com", 
+    "clave": "194757616"
+}

@@ -1,15 +1,15 @@
 import express, { json } from "express";
-import { profesorRouters } from "./routes/routesProfesor.js";
+import { routersProfesor } from "./routes/routesProfesor.js";
+import { routersStudent } from "./routes/routesStudent.js";
 import { corsMiddleware } from "./middlewares/cors.js";
-
 
 const app = express();
 app.disable("x-powered-by");
 app.use(json());
 app.use(corsMiddleware());
 
-app.use("/profesor", profesorRouters);
-
+app.use("/profesor", routersProfesor);
+//app.use("/student", routersStudent);
 
 const port = process.env.PORT ?? 1234;
 
