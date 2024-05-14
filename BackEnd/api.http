@@ -13,9 +13,23 @@ Content-Type: application/json
 }
 
 ###
-post http://localhost:1234/profesor/login
+
+POST http://localhost:1234/profesor/login
 Content-Type: application/json
+
 {
-    "correo": "japertuzd@gmail.com", 
-    "clave": "194757616"
+
+"correo": "japertuzd@gmail.com", 
+"clave": "194757616"
+}
+
+###
+POST http://localhost:1234/profesor/createcourse
+Content-Type: application/json
+
+{
+
+"titulo":"quinto",
+ "id_profesor": 1,
+ "grado": "11b"
 }

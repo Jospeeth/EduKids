@@ -21,8 +21,8 @@ USE `elvis_edukids` ;
 -- Table `elvis_edukids`.`grado`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `elvis_edukids`.`grado` (
-  `idgrado` INT NOT NULL,
-  `grado` INT NOT NULL,
+  `idgrado` INT NOT NULL AUTO_INCREMENT,
+  `grado` VARCHAR(45) ,
   PRIMARY KEY (`idgrado`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
@@ -115,12 +115,7 @@ CREATE TABLE IF NOT EXISTS `elvis_edukids`.`estudiantes` (
   `fecha_nac` VARCHAR(45) NOT NULL,
   `sexo` VARCHAR(45) NOT NULL,
   `celular` VARCHAR(45) NOT NULL,
-  `id_grado` INT NOT NULL,
-  PRIMARY KEY (`idestudiantes`),
-  INDEX `fk_estudiantes_grado1_idx` (`id_grado` ASC) VISIBLE,
-  CONSTRAINT `fk_estudiantes_grado1`
-    FOREIGN KEY (`id_grado`)
-    REFERENCES `elvis_edukids`.`grado` (`idgrado`))
+  PRIMARY KEY (`idestudiantes`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -195,21 +190,16 @@ CREATE TABLE IF NOT EXISTS `elvis_edukids`.`videos` (
   `nombre` VARCHAR(45) NOT NULL,
   `contenido` TEXT NOT NULL,
   `id_cursos` INT NOT NULL,
-  `id_profesos` INT NOT NULL,
   `id_clases` INT NOT NULL,
   PRIMARY KEY (`idvideos`),
   INDEX `fk_videos_cursos1_idx` (`id_cursos` ASC) VISIBLE,
-  INDEX `fk_videos_profesores1_idx` (`id_profesos` ASC) VISIBLE,
   INDEX `fk_videos_clases1_idx` (`id_clases` ASC) VISIBLE,
   CONSTRAINT `fk_videos_clases1`
     FOREIGN KEY (`id_clases`)
     REFERENCES `elvis_edukids`.`clases` (`idclases`),
   CONSTRAINT `fk_videos_cursos1`
     FOREIGN KEY (`id_cursos`)
-    REFERENCES `elvis_edukids`.`cursos` (`idcursos`),
-  CONSTRAINT `fk_videos_profesores1`
-    FOREIGN KEY (`id_profesos`)
-    REFERENCES `elvis_edukids`.`profesores` (`idprofesos`))
+    REFERENCES `elvis_edukids`.`cursos` (`idcursos`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
