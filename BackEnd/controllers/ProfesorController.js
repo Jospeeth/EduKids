@@ -83,11 +83,11 @@ export class ProfesorController {
     }
 
     static async signUpStudent(req, res) {
-        const { nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso} = req.body;
-    
+        const { nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso } = req.body;
+
         try {
             const result = await profesorModel.signUpStudent({ nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso });
-            
+
             if (typeof result === 'object') {
                 return res.status(201).json({
                     status: "201",
@@ -95,16 +95,43 @@ export class ProfesorController {
                 });
             }
             res.status(409).json({
-                status: 409,
+                status: "409",
                 message: result,
             });
         } catch (error) {
             res.status(500).json({
-                message: 'Error al registrar estudiante',
+                message: 'Error to sign up student',
                 error: error.message
             });
         }
     }
+
+    static async getCourses(req, res) {
+        const { id } = req.params;
     
+        try {
+            const courses = await profesorModel.getCourses({ id });
+    
+            if (courses && courses.length > 0) {
+                return res.status(200).json({
+                    status: 200,
+                    message: 'Profesor Courses Successfully Obtained',
+                    courses: courses
+                });
+            } else {
+                return res.status(404).json({
+                    status: 404,
+                    message: 'The Profesor has no related courses'
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+    
+
 
 }

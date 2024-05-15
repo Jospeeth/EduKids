@@ -47,3 +47,6 @@ Content-Type: application/json
   "celular": "1234567890",
   "idCurso": 8
 }
+
+###
+GET http://localhost:1234/profesor/coursesprofesor/1

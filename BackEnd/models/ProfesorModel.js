@@ -94,31 +94,45 @@ export class profesorModel {
                 'INSERT INTO estudiantes (nombre, apellido, correo, clave, fecha_nac, sexo, celular) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 [nombre, apellido, correo, clave, fecha_nac, sexo, celular]
             );
-    
+
             const [studentId] = await connection.query(
                 'SELECT idestudiantes FROM estudiantes WHERE correo=?',
                 [correo]
             );
-    
+
             if (!studentId || !studentId.length) {
                 throw new Error('No se pudo obtener el ID del estudiante recién registrado.');
             }
-    
-             await connection.query(
+
+            await connection.query(
                 'INSERT INTO estudiantes_x_cursos(id_estudiantes, id_cursos ) VALUES (?,?)',
                 [studentId[0].idestudiantes, idCurso]
             );
-            
+
             const [studentInfo] = await connection.query(
                 'SELECT * FROM estudiantes WHERE idestudiantes = ?',
                 [student.insertId]
             );
 
-        return studentInfo;
+            return studentInfo;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getCourses({ id }) {
+        try {
+            const [courses] = await connection.query(
+                'SELECT titulo, fecha_publicacion,id_grado FROM cursos WHERE id_profesor = ?',
+                [id]
+            );
+    
+            return courses;
         } catch (error) {
             throw error;
         }
     }
     
+
 
 }
