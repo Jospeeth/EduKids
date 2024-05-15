@@ -29,7 +29,21 @@ Content-Type: application/json
 
 {
 
-"titulo":"quinto",
+"titulo":"Como cuidar a el ambiente",
  "id_profesor": 1,
- "grado": "11b"
+ "grado": "11"
+}
+###
+POST http://localhost:1234/profesor/signupstudent
+Content-Type: application/json
+
+{
+  "nombre": "Jose",
+  "apellido": "Apellido",
+  "correo": "jape@example.com",
+  "clave": "clave",
+  "fecha_nac": "2000-03-03",
+  "sexo": "M",
+  "celular": "1234567890",
+  "idCurso": 8
 }

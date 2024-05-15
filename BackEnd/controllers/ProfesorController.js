@@ -3,18 +3,28 @@ import { profesorModel } from "../models/ProfesorModel.js";
 export class ProfesorController {
     static async signUp(req, res) {
         const result = req.body;
-        const profesorExist = await profesorModel.signUp({ input: result });
+        try {
+            const profesorExist = await profesorModel.signUp({ input: result });
 
-        if (profesorExist) {
-            return res.status(409).json({
-                message: "profesor is already signed up",
+            if (profesorExist) {
+                return res.status(409).json({
+                    status: "409",
+                    message: "Profesor already exists",
 
-            })
-        } else {
+                })
+            }
             return res.status(201).json({
-                error: "201",
-                message: "profesor created",
+                status: "201",
+                message: "Profesor created",
             });
+
+
+        } catch (status) {
+            return res.status(500).json({
+                status: "500",
+                message: "Internal Server Error",
+            });
+
         }
     }
 
@@ -25,27 +35,76 @@ export class ProfesorController {
             const profesor = await profesorModel.login({ correo, clave });
 
             if (profesor) {
-                return res.status(200).json({ profesor });
-            } else {
-                return res.status(401).json({ 
-                    message: "Correo o Contraseña invalidos" });
+                return res.status(200).json({
+                    status: "200",
+                    message: "Login successful",
+                    data: profesor
+                });
             }
-        } catch (error) {
+            return res.status(401).json({
+                status: "401",
+                message: "Invalid email or password"
+            });
+
+        } catch (status) {
             return res.status(500).json({
-                error: "Internal Server Error",
+                status: "500",
+                message: "Internal Server Error",
             });
         }
     }
 
-    static async  createCourse(req, res) {
-        const {titulo, id_profesor, grado} = req.body
+    static async createCourse(req, res) {
+        const { titulo, id_profesor, grado } = req.body
 
-        const result = await profesorModel.createCourse({titulo, id_profesor, grado})
+        const result = await profesorModel.createCourse({ titulo, id_profesor, grado })
 
-        return res.status(201).json(result)
-        
-      
+
+        try {
+            if (typeof result === 'object') {
+                return res.status(201).json({
+                    status: "201",
+                    message: "Student created"
+                });
+            }
+            return res.status(409).json({
+                status: "409",
+                message: result
+            });
+
+        } catch (status) {
+            return res.status(500).json({
+                status: "500",
+                message: "Internal Server Error",
+            });
+        }
+
+
+    }
+
+    static async signUpStudent(req, res) {
+        const { nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso} = req.body;
+    
+        try {
+            const result = await profesorModel.signUpStudent({ nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso });
+            
+            if (typeof result === 'object') {
+                return res.status(201).json({
+                    status: "201",
+                    message: "Student created"
+                });
+            }
+            res.status(409).json({
+                status: 409,
+                message: result,
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error al registrar estudiante',
+                error: error.message
+            });
+        }
+    }
     
 
-}
 }
