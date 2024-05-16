@@ -1,20 +1,20 @@
 ###
-POST http://localhost:1234/profesor/signup
+POST http://localhost:1234/profesor/registrarse
 Content-Type: application/json
 
 {
 "nombre": "jose" , 
 "apellido": "pertuz", 
-"correo": "japertuzd@gmail.com", 
+"correo": "aasd@gmail.com", 
 "clave": "194757616", 
 "sexo": "Masculino", 
 "fecha_nac": "03-03-2004", 
-"celular":"3126767998"
+"celular":"333333"
 }
 
 ###
 
-POST http://localhost:1234/profesor/login
+POST http://localhost:1234/profesor/iniciarsesion
 Content-Type: application/json
 
 {
@@ -24,29 +24,89 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:1234/profesor/createcourse
+POST http://localhost:1234/profesor/crear/curso
 Content-Type: application/json
 
 {
 
-"titulo":"Como cuidar a el ambiente",
- "id_profesor": 1,
+"titulo":"Como el ambiente",
+ "idProfesor": 1,
  "grado": "11"
 }
+
 ###
-POST http://localhost:1234/profesor/signupstudent
+POST http://localhost:1234/profesor/registrar/estudiante
 Content-Type: application/json
 
 {
   "nombre": "Jose",
   "apellido": "Apellido",
-  "correo": "jape@example.com",
+  "correo": "sdsd@example.com",
   "clave": "clave",
-  "fecha_nac": "2000-03-03",
+  "fechaNac": "2000-03-03",
   "sexo": "M",
-  "celular": "1234567890",
+  "celular": "324423",
   "idCurso": 8
 }
 
 ###
-GET http://localhost:1234/profesor/coursesprofesor/1
+GET http://localhost:1234/profesor/cursos/1
+
+
+###
+POST http://localhost:1234/profesor/clases
+Content-Type: application/json
+
+{
+  "nombreClase": "Clase1",
+  "imagenClase": "Image",
+  "idCurso": 9
+}
+
+
+###
+GET http://localhost:1234/profesor/clases/curso/9
+
+
+###
+GET http://localhost:1234/profesor/cursos/estudiantes/8
+
+###
+POST http://localhost:1234/profesor/videos
+Content-Type: application/json
+
+{
+  "nombre": "Clase1",
+  "contenido": "Image",
+  "idClase": 1
+}
+
+###
+POST http://localhost:1234/profesor/recursos
+Content-Type: application/json
+
+{
+  "archivoLink": "cosa",
+  "idClase": 1
+  
+}
+
+###
+POST http://localhost:1234/profesor/actividades
+Content-Type: application/json
+
+{
+  "mensaje": "Deben consultar sobre el medio ambiente",
+  "archivo": "Image",
+  "idClase": 1
+}
+
+
+###
+GET http://localhost:1234/profesor/videos/1
+###
+
+
+###
+GET http://localhost:1234/profesor/actividades/1
+

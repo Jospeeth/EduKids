@@ -25,7 +25,9 @@ export class profesorModel {
 
 
 
-    static async login({ correo, clave }) {
+    static async login({ input }) {
+        const { correo, clave } = input;
+
 
         try {
             const [profesor] = await connection.query(
@@ -39,7 +41,8 @@ export class profesorModel {
             throw error;
         }
     }
-    static async createCourse({ titulo, id_profesor, grado }) {
+    static async createCourse({ input }) {
+        const { titulo, idProfesor, grado } = input
         const fechaActual = new Date(Date.now()).toISOString();
 
         try {
@@ -71,7 +74,7 @@ export class profesorModel {
             // Insertar el curso
             const [cursoResult] = await connection.query(
                 'INSERT INTO cursos (titulo, fecha_publicacion, id_profesor, id_grado) VALUES (?, ?, ?, ?)',
-                [titulo, fechaActual, id_profesor, gradoID]
+                [titulo, fechaActual, idProfesor, gradoID]
             );
 
             return cursoResult;
@@ -79,7 +82,8 @@ export class profesorModel {
             throw error;
         }
     }
-    static async signUpStudent({ nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso }) {
+    static async signUpStudent({ input }) {
+        const { nombre, apellido, correo, clave, fechaNac, sexo, celular, idCurso } = input
         try {
             const [existingStudent] = await connection.query(
                 'SELECT correo FROM estudiantes WHERE correo=?',
@@ -92,7 +96,7 @@ export class profesorModel {
 
             const [student] = await connection.query(
                 'INSERT INTO estudiantes (nombre, apellido, correo, clave, fecha_nac, sexo, celular) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                [nombre, apellido, correo, clave, fecha_nac, sexo, celular]
+                [nombre, apellido, correo, clave, fechaNac, sexo, celular]
             );
 
             const [studentId] = await connection.query(
@@ -126,13 +130,151 @@ export class profesorModel {
                 'SELECT titulo, fecha_publicacion,id_grado FROM cursos WHERE id_profesor = ?',
                 [id]
             );
-    
+
             return courses;
         } catch (error) {
             throw error;
         }
     }
-    
 
+    static async createClassInCourse({ input }) {
+        const { nombreClase, imagenClase, idCurso } = input
+        try {
+            const [existingClase] = await connection.query(
+                'SELECT * FROM clases WHERE nombre_clase =?',
+                [nombreClase]
+
+            )
+
+            if (existingClase.length > 0) {
+                return `It seems that the class "${nombreClase}" already exists`;
+            }
+            else {
+                const [classCreated] = await connection.query(
+                    'INSERT INTO clases (nombre_clase, imagen_clase, cursos_idcursos) VALUES (?, ?, ?)',
+                    [nombreClase, imagenClase, idCurso]
+                );
+                const [classInfo] = await connection.query(
+                    'SELECT * FROM clases WHERE idclases  = ?',
+                    [classCreated.insertId]
+                );
+
+
+                return classInfo;
+            }
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getClassesByCourse({ idCurso }) {
+        try {
+            const [classes] = await connection.query(
+                'SELECT * FROM clases WHERE cursos_idcursos = ?',
+                [idCurso]
+            );
+
+            return classes;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getStudentsByCourse({ idCurso }) {
+        try {
+            const [students] = await connection.query(
+                'SELECT estudiantes.* FROM estudiantes JOIN estudiantes_x_cursos ON estudiantes.idestudiantes = estudiantes_x_cursos.id_estudiantes WHERE estudiantes_x_cursos.id_cursos = ?',
+                [idCurso]
+            );
+
+            return students;
+        } catch (error) {
+            throw error;
+        }
+    }
+    static async insertVideo({ input }) {
+        const { nombre, contenido, idClase } = input;
+
+        try {
+            const [result] = await connection.query(
+                'INSERT INTO videos (nombre, contenido, id_clases) VALUES (?, ?, ?)',
+                [nombre, contenido, idClase]
+            );
+
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async insertRecurso({ input }) {
+        const { archivoLink, idClase } = input;
+
+        try {
+            const [result] = await connection.query(
+                'INSERT INTO recursos (archivo_link, id_clases) VALUES (?, ?)',
+                [archivoLink, idClase]
+            );
+
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async insertActividad({ input }) {
+        const { mensaje, archivo, idClase } = input;
+
+        try {
+            const [result] = await connection.query(
+                'INSERT INTO actividades (mensaje, archivo, id_clases) VALUES (?, ?, ?)',
+                [mensaje, archivo, idClase]
+            );
+
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getVideosByClass(idClase) {
+        try {
+            const [videos] = await connection.query(
+                'SELECT * FROM videos WHERE id_clases = ?',
+                [idClase]
+            );
+            return videos;
+        } catch (error) {
+            throw error;
+        }
+    }
+    static async getRecursosByClass(idClase) {
+        try {
+            const [recursos] = await connection.query(
+                'SELECT * FROM recursos WHERE id_clases = ?',
+                [idClase]
+            );
+            return recursos;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getActividadesByClass(idClase) {
+        try {
+            const [actividades] = await connection.query(
+                'SELECT * FROM actividades WHERE id_clases = ?',
+                [idClase]
+            );
+            return actividades;
+        } catch (error) {
+            throw error;
+        }
+    }
 
 }
+
+
+
+

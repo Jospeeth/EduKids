@@ -29,10 +29,10 @@ export class ProfesorController {
     }
 
     static async login(req, res) {
-        const { correo, clave } = req.body;
+        const result = req.body;
 
         try {
-            const profesor = await profesorModel.login({ correo, clave });
+            const profesor = await profesorModel.login({ input: result });
 
             if (profesor) {
                 return res.status(200).json({
@@ -55,13 +55,13 @@ export class ProfesorController {
     }
 
     static async createCourse(req, res) {
-        const { titulo, id_profesor, grado } = req.body
+        const result = req.body
 
-        const result = await profesorModel.createCourse({ titulo, id_profesor, grado })
+        const course = await profesorModel.createCourse({ input: result })
 
 
         try {
-            if (typeof result === 'object') {
+            if (typeof course === 'object') {
                 return res.status(201).json({
                     status: "201",
                     message: "Student created"
@@ -69,7 +69,7 @@ export class ProfesorController {
             }
             return res.status(409).json({
                 status: "409",
-                message: result
+                message: course
             });
 
         } catch (status) {
@@ -83,12 +83,12 @@ export class ProfesorController {
     }
 
     static async signUpStudent(req, res) {
-        const { nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso } = req.body;
+        const result = req.body;
 
         try {
-            const result = await profesorModel.signUpStudent({ nombre, apellido, correo, clave, fecha_nac, sexo, celular, idCurso });
+            const student = await profesorModel.signUpStudent({ input: result });
 
-            if (typeof result === 'object') {
+            if (typeof student === 'object') {
                 return res.status(201).json({
                     status: "201",
                     message: "Student created"
@@ -96,7 +96,7 @@ export class ProfesorController {
             }
             res.status(409).json({
                 status: "409",
-                message: result,
+                message: student,
             });
         } catch (error) {
             res.status(500).json({
@@ -108,11 +108,11 @@ export class ProfesorController {
 
     static async getCourses(req, res) {
         const { id } = req.params;
-    
+
         try {
             const courses = await profesorModel.getCourses({ id });
-    
-            if (courses && courses.length > 0) {
+
+            if (courses.length > 0) {
                 return res.status(200).json({
                     status: 200,
                     message: 'Profesor Courses Successfully Obtained',
@@ -131,7 +131,175 @@ export class ProfesorController {
             });
         }
     }
-    
+    static async createClassInCourse(req, res) {
+        const result = req.body;
 
+        try {
+            const resultClass = await profesorModel.createClassInCourse({ input: result });
+
+            if (typeof resultClass === 'object') {
+                return res.status(200).json({
+                    status: 200,
+                    message: 'Class created',
+                    class: resultClass
+                });
+            } else {
+                return res.status(409).json({
+                    status: 409,
+                    message: resultClass
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async getClassesByCourse(req, res) {
+        const { idCurso } = req.params;
+
+        try {
+            const classes = await profesorModel.getClassesByCourse({ idCurso });
+
+            return res.status(200).json({
+                status: 200,
+                message: 'Classes obtained',
+                classes: classes
+            });
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async getStudentsByCourse(req, res) {
+        const { idCurso } = req.params;
+
+        try {
+            const students = await profesorModel.getStudentsByCourse({ idCurso });
+
+            return res.status(200).json({
+                status: 200,
+                message: 'Students obtained',
+                students: students
+            });
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+    static async insertVideo(req, res) {
+        const result = req.body;
+
+        try {
+            const video = await profesorModel.insertVideo({ input: result });
+
+            return res.status(201).json({
+                status: 201,
+                message: 'Video inserted',
+                video: video
+            });
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async insertRecurso(req, res) {
+        const result = req.body;
+
+        try {
+            const recurso = await profesorModel.insertRecurso({ input: result });
+
+            return res.status(201).json({
+                status: 201,
+                message: 'Recurso inserted',
+                recurso: recurso
+            });
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async insertActividad(req, res) {
+        const result = req.body;
+
+        try {
+            const actividad = await profesorModel.insertActividad({ input: result });
+
+            return res.status(201).json({
+                status: 201,
+                message: 'Actividad inserted',
+                actividad: actividad
+            });
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async getVideosByClass(req, res) {
+        const { idClase } = req.params;
+        try {
+            const videos = await profesorModel.getVideosByClass(idClase);
+            return res.status(200).json({
+                status: 200,
+                message: 'Videos found',
+                data: videos
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async getRecursosByClass(req, res) {
+        const { idClase } = req.params;
+        try {
+            const recursos = await profesorModel.getRecursosByClass(idClase);
+            return res.status(200).json({
+                status: 200,
+                message: 'Recursos found',
+                data: recursos
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
+
+    static async getActividadesByClass(req, res) {
+        const { idClase } = req.params;
+        try {
+            const actividades = await profesorModel.getActividadesByClass(idClase);
+            return res.status(200).json({
+                status: 200,
+                message: 'Actividades found',
+                data: actividades
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+            });
+        }
+    }
 
 }
