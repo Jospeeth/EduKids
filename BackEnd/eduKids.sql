@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `elvis_edukids`.`profesores` (
   `correo` VARCHAR(45) NOT NULL,
   `clave` VARCHAR(45) NOT NULL,
   `sexo` VARCHAR(45) NOT NULL,
-  `fecha_nac` VARCHAR(45) NOT NULL,
+
   `celular` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idprofesos`),
   UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE,
