@@ -1,33 +1,48 @@
 import { useState } from "react";
 import { UserPlus, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { Input } from "@ui/Input";
+import { Button } from "@ui/Button";
+import { Label } from "@ui/Label";
+import { Checkbox } from "@ui/Checkbox";
 
 import { Helmet } from "react-helmet";
 
 const SignUp = () => {
-
-
-
-
   return (
-   <main>
-    <Helmet>
+    <>
+      <Helmet>
         <title>Crear Cuenta</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-primary">
-        <div className="max-w-lg w-full p-6 bg-white shadow-lg rounded-lg">
-          <div className="flex flex-row items-center mb-4">
-           
-              <ArrowLeft className="w-5 h-5 text-gray-500 hover:text-gray-700 mr-2" />
-            
-            <h1 className="text-xl font-semibold">Crear Cuenta</h1>
-          </div>
-          <form>
+      <div className="min-h-screen flex items-center justify-center bg-primary overflow-y-hidden">
+        <main className="flex flex-col place-items-center p-6 bg-slate-100 rounded-xl">
+         
+            <div className="icon flex items-center justify-center">
+              <img
+                className="h-12, w-12 select-none"
+                src=""
+                alt="logo"
+              />
+              <span className="font-bold ml-1 select-none">EduKids</span>
+            </div>
+
+            <div className="flex items-center justify-between w-full">
+              <h2 className="font-bold my-7  text-base sm:text-lg">
+                Crear Cuenta en EduKids
+              </h2>
+              <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
+                <a className="text-primary" to="/">
+                  <ArrowLeft className="h-5 w-5 text-current" />
+                </a>
+              </div>
+            </div>
+
+          <form className=" flex justify-center flex-col" >
             <div className="flex flex-row gap-3.5">
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <label htmlFor="firstName" className="text-tertiary">
+                <Label htmlFor="firstName" className="text-tertiary">
                   Nombre
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   id="firstName"
                   name="firstName"
@@ -35,10 +50,10 @@ const SignUp = () => {
                 />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <label htmlFor="lastName" className="text-tertiary">
+                <Label htmlFor="lastName" className="text-tertiary">
                   Apellido
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   id="lastName"
                   name="lastName"
@@ -47,10 +62,10 @@ const SignUp = () => {
               </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
-              <label htmlFor="email" className="text-tertiary">
+              <Label htmlFor="email" className="text-tertiary">
                 Correo electronico
-              </label>
-              <input
+              </Label>
+              <Input
                 type="email"
                 id="email"
                 name="email"
@@ -58,21 +73,32 @@ const SignUp = () => {
               />
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
-              <label htmlFor="password" className="text-tertiary">
+              <Label htmlFor="email" className="text-tertiary">
+                Celular
+              </Label>
+              <Input
+                type="number"
+                id="celular"
+                name="celular"
+                placeholder="Celular"
+              />
+            </div>
+            <div className="grid w-full max-w items-center gap-1.5 mt-2">
+              <Label htmlFor="password" className="text-tertiary">
                 Contraseña
-              </label>
-              <input
+              </Label>
+              <Input
                 type={"password"}
                 id="password"
                 name="password"
                 placeholder="Contraseña"
               />
             </div>
-            <div className="grid w-full max-w items-center gap-1.5 mt-2">
-              <label htmlFor="repeatPassword" className="text-tertiary">
+            <div className="grid w-full max-w items-center gap-1.5 mt-2 mb-4">
+              <Label htmlFor="repeatPassword" className="text-tertiary">
                 Confirmar Contraseña
-              </label>
-              <input
+              </Label>
+              <Input
                 type="password"
                 id="repeatPassword"
                 name="repeatPassword"
@@ -80,17 +106,25 @@ const SignUp = () => {
               />
             </div>
             <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
-              <input type="checkbox" name="terms" />
-              <label htmlFor="terms" className="text-tertiary text-xs sm:text-base">
-                Aceptar terminos y condiciones
-              </label>
-            </div>
-            <button type="submit">Registrarse</button>
+                  <Checkbox id="terms" />
+                  <Label
+                    htmlFor="terms"
+                    className="text-tertiary text-xs sm:text-base"
+                  >
+                    Aceptar terminos y condiciones
+                  </Label>
+                </div>
+        
+            <Button type="submit" variant="default" type="submit">
+              Registrarse
+            </Button>
           </form>
-        </div>
+        </main>
       </div>
-   </main>
+    </>
   );
 };
 
-export default SignUp;  
+
+
+export default SignUp;
