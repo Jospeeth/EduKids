@@ -7,7 +7,6 @@ Content-Type: application/json
 "apellido": "pertuz", 
 "correo": "japertuzd@gmail.com", 
 "clave": "194757616", 
-"sexo": "Masculino", 
 "celular":"333333"
 }
 
