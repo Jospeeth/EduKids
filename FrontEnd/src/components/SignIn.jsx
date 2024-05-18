@@ -1,14 +1,73 @@
 import { useState } from "react";
-import { UserPlus, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Input } from "@ui/Input";
 import { Button } from "@ui/Button";
 import { Label } from "@ui/Label";
-import { Checkbox } from "@ui/Checkbox";
-
+import { z } from "zod";
 import { Helmet } from "react-helmet";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+
+  const SignUpSchema = z.object({
+    email: z.string().email({ message: "Correo electronico invalido" }),
+
+    password: z
+      .string()
+      .min(8, "Contraseña debe tener minimo 8 caracteres")
+      .refine(
+        (password) => {
+          return /[A-Z]/.test(password);
+        },
+        {
+          message: "Contraseña debe contener al menos una letra mayúscula",
+        }
+      )
+      .refine(
+        (password) => {
+          return /\d/.test(password);
+        },
+        {
+          message: "Contraseña debe contener al menos un número",
+        }
+      )
+      .refine(
+        (password) => {
+          return /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
+        },
+        {
+          message: "Contraseña debe incluir al menos un carácter especial",
+        }
+      ),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(SignUpSchema) });
+
+  const handleSubmitData = async (data) => {
+    const { email, password } = data;
+    try {
+      await axios.post("http://localhost:1234/profesor/iniciarsesion", {
+        correo: email,
+        clave: password,
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("Credenciales incorrectas");
+      }
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -40,7 +99,10 @@ const SignUp = () => {
               </div>
             </div>
 
-            <form className=" flex justify-center flex-col">
+            <form
+              className=" flex justify-center flex-col"
+              onSubmit={handleSubmit(handleSubmitData)}
+            >
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
                 <Label htmlFor="email" className="text-tertiary">
                   Correo electronico
@@ -50,22 +112,49 @@ const SignUp = () => {
                   id="email"
                   name="email"
                   placeholder="Correo electronico"
+                  {...register("email")}
                 />
+                <div className=" sm:h-[20px] sm:mt-[0.4rem]">
+                  {errors.email && (
+                    <span className="text-red-500 text-xs">
+                      {errors.email.message}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
                 <Label htmlFor="password" className="text-tertiary">
                   Contraseña
                 </Label>
-                <Input
-                  type={"password"}
-                  id="password"
-                  name="password"
-                  placeholder="Contraseña"
-                />
+                <div className="flex flex-row space-x-2">
+                  <Input
+                    type={showPassword ? "password" : "text"}
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    {...register("password")}
+                  />
+                  <Button
+                    size="icon"
+                    variant="icon"
+                    type="button"
+                    className="transition duration-300 hover:shadow-md focus:shadow-md border-2 border-input"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff /> : <Eye />}
+                  </Button>
+                </div>
+              </div>
+              <div className=" sm:h-[20px] sm:mt-[0.4rem]">
+                {errors.password && (
+                  <span className="text-red-500 text-xs">
+                    {errors.password.message}
+                  </span>
+                )}
               </div>
 
-              <Button type="submit" variant="default" type="submit">
+              <Button type="submit" variant="default">
                 Registrarse
               </Button>
               <span className="text-tertiary text-xs sm:text-base">

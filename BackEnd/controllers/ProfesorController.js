@@ -7,11 +7,7 @@ export class ProfesorController {
             const profesorExist = await profesorModel.signUp({ input: result });
 
             if (profesorExist) {
-                return res.status(409).json({
-                    status: "409",
-                    message: "Profesor already exists",
-
-                })
+                return
             }
             return res.status(201).json({
                 status: "201",
@@ -20,10 +16,11 @@ export class ProfesorController {
 
 
         } catch (status) {
-            return res.status(500).json({
-                status: "500",
-                message: "Internal Server Error",
-            });
+            return  res.status(409).json({
+                status: "409",
+                message: "Profesor already exists",
+
+            })
 
         }
     }

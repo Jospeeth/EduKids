@@ -116,7 +116,9 @@ const SignUp = () => {
       )
       navigate("/signin")
     }catch(e){
-      console.log(e)
+      if(e.response.status=== 409){
+        alert("El correo ya se encuentra registrado")
+      }
     }
 
   };
