@@ -8,13 +8,13 @@ function App() {
   console.log("App component is rendering");
   return (
    <BrowserRouter>
-     <main>
+    
          <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
          </Routes>
-       </main>
+      
    </BrowserRouter>
 
   );

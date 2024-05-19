@@ -9,6 +9,8 @@ import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import {Background} from "./Background.jsx";
+
 import { z } from "zod";
 
 const SignUp = () => {
@@ -128,9 +130,7 @@ const SignUp = () => {
       <Helmet>
         <title>Crear Cuenta</title>
       </Helmet>
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
-        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)]"></div>
-      </div>
+      <Background/>
       <div className="min-h-screen flex items-center justify-center  overflow-y-hidden">
         <main className=" shadow-2xl flex flex-col place-items-center p-6 bg-background rounded-xl">
           <div className="icon flex items-center justify-center">

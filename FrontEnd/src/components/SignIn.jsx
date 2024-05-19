@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Background } from "./Background.jsx";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -57,22 +58,35 @@ const SignUp = () => {
   const handleSubmitData = async (data) => {
     const { email, password } = data;
     try {
-      const response= await axios.post("http://localhost:1234/profesor/iniciarsesion", {
-        correo: email,
-        clave: password,
-      });
+      let response = await axios.post(
+        "http://localhost:1234/profesor/iniciarsesion",
+        {
+          correo: email,
+          clave: password,
+        }
+      );
 
       if (response.status === 200) {
-      
+        alert("Entrando como profesor");
         navigate("/home");
+      } else if (response.status === 401) {
+        response = await axios.post(
+          "http://localhost:1234/estudiante/iniciarsesion",
+          {
+            correo: email,
+            clave: password,
+          }
+        );
+
+        if (response.status === 200) {
+          alert("Entrando como estudiante");
+          navigate("/home");
+        } else {
+          alert("Credenciales incorrectas");
+        }
       }
-   
-    }
-    
-    catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert("Credenciales incorrectas");
-      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -81,9 +95,7 @@ const SignUp = () => {
       <Helmet>
         <title>Iniciar Sesión</title>
       </Helmet>
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
-        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)]"></div>
-      </div>
+      <Background />
       <div className="min-h-screen flex items-center justify-center overflow-y-hidden">
         <main className="flex flex-col place-items-center">
           <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">

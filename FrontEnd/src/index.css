@@ -1,13 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
 
   @layer base {
-    
     :root {
-      font-family: "Poppins", sans-serif;  
       --background: 0 0% 100%;
       --foreground: 222.2 84% 4.9%;
 
@@ -17,7 +13,7 @@
       --popover: 0 0% 100%;
       --popover-foreground: 222.2 84% 4.9%;
 
-      --primary: 222.2 47.4% 40.2%; 
+      --primary: 212.2 70.4% 35.2%;
       --primary-foreground: 210 40% 98%;
 
       --secondary: 210 40% 96.1%;
