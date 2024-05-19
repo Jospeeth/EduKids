@@ -57,11 +57,19 @@ const SignUp = () => {
   const handleSubmitData = async (data) => {
     const { email, password } = data;
     try {
-      await axios.post("http://localhost:1234/profesor/iniciarsesion", {
+      const response= await axios.post("http://localhost:1234/profesor/iniciarsesion", {
         correo: email,
         clave: password,
       });
-    } catch (error) {
+
+      if (response.status === 200) {
+      
+        navigate("/home");
+      }
+   
+    }
+    
+    catch (error) {
       if (error.response && error.response.status === 401) {
         alert("Credenciales incorrectas");
       }

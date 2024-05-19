@@ -105,7 +105,7 @@ const SignUp = () => {
     
    
     try{
-      await axios.post("http://localhost:1234/profesor/registrarse",
+         axios.post("http://localhost:1234/profesor/registrarse",
       {
         nombre: nombre, 
         apellido: apellido, 
