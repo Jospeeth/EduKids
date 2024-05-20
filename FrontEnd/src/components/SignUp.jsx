@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+
+import { ArrowLeft} from "lucide-react";
 import { Input } from "@ui/Input";
 import { Button } from "@ui/Button";
+
+import {ButtonShowPassword} from "@ui/ButtonShowPassword";
 import { Label } from "@ui/Label";
 import { Checkbox } from "@ui/Checkbox";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,9 +14,13 @@ import axios from "axios";
 import {Background} from "./Background.jsx";
 
 import { z } from "zod";
+import { useState } from "react";
 
-const SignUp = () => {
-  const [password, setPassword] = useState(false);
+const SignUp = () => {  
+  const [showPassword, setShowPassword] = useState(false);
+
+
+
   const navigate = useNavigate();
 
 
@@ -139,11 +145,11 @@ const SignUp = () => {
               src="/edukids-logo.svg"
               alt="Edu kids logo"
             />
-            <span className="font-bold ml-1 select-none">EduKids</span>
+            <span className="font-bold ml-1 select-none text-primary">EduKids</span>
           </div>
 
           <div className="flex items-center justify-between w-full">
-            <h2 className="font-bold my-7  text-base sm:text-lg">
+            <h2 className="font-bold my-7 text-primary text-base sm:text-lg">
               Crear Cuenta en EduKids
             </h2>
             <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent cursor-pointer">
@@ -159,7 +165,7 @@ const SignUp = () => {
           >
             <div className="flex flex-row gap-3.5">
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="firstName" className="text-tertiary">
+                <Label htmlFor="firstName" className="text-primary">
                   Nombre
                 </Label>
                 <Input
@@ -178,7 +184,7 @@ const SignUp = () => {
                 </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="lastName" className="text-tertiary">
+                <Label htmlFor="lastName" className="text-primary">
                   Apellido
                 </Label>
                 <Input
@@ -198,7 +204,7 @@ const SignUp = () => {
               </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
-              <Label htmlFor="email" className="text-tertiary">
+              <Label htmlFor="email" className="text-primary">
                 Correo electronico
               </Label>
               <Input
@@ -217,7 +223,7 @@ const SignUp = () => {
                 </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
-              <Label htmlFor="phone" className="text-tertiary">
+              <Label htmlFor="phone" className="text-primary">
                 Celular
               </Label>
               <Input
@@ -238,31 +244,19 @@ const SignUp = () => {
                </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
-              <Label htmlFor="password" className="text-tertiary">
+              <Label htmlFor="password" className="text-primary">
                 Contraseña
               </Label>
               <div className="flex flex-row space-x-2">
                 <Input
-                  type={password ? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
                   placeholder="Contraseña"
                   {...register("password")}
                 />
                
-                <Button
-                  size="icon"
-                  variant="icon"
-                  type="button"
-                  className="transition duration-300 hover:shadow-md focus:shadow-md border-2 border-input"
-                  onClick={() => setPassword(!password)}
-                >
-                  {password ? (
-                    <EyeOff className="h-5 w-5 text-primary" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-primary" />
-                  )}
-                </Button>
+               <ButtonShowPassword setShowPassword={setShowPassword} showPassword={showPassword} />
                 
               </div>
               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
@@ -274,11 +268,11 @@ const SignUp = () => {
                 </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2 mb-4">
-              <Label htmlFor="repeatPassword" className="text-tertiary">
+              <Label htmlFor="repeatPassword" className="text-primary">
                 Confirmar Contraseña
               </Label>
               <Input
-                type={password ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 id="repeatPassword"
                 name="repeatPassword"
                 placeholder="Confirmar Contraseña"
@@ -296,7 +290,7 @@ const SignUp = () => {
               <Checkbox id="terms" />
               <Label
                 htmlFor="terms"
-                className="text-tertiary text-xs sm:text-base"
+                className="text-primary text-xs sm:text-base"
               >
                 Aceptar terminos y condiciones
               </Label>
@@ -305,7 +299,7 @@ const SignUp = () => {
             <Button type="submit" variant="default">
               Registrarse
             </Button>
-            <span className="text-tertiary text-xs sm:text-base">
+            <span className="text-primary text-xs sm:text-base">
               ¿Ya eres profesor de Edukids?
               <Link
                 className="text-primary ml-1 hover:underline text-xs sm:text-base"

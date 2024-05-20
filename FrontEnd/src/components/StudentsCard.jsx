@@ -37,11 +37,11 @@ const StudentsCard = ({ className, ...props }) => {
 <Card key={student.name} className={cn("w-[250px]", className)} {...props}>
   <CardHeader className="flex flex-col items-center">
     <img src={student.image} alt={student.name} className="h-20 w-20 rounded-full border-4 border- "  />
-    <CardTitle className="font-semibold">{student.name}</CardTitle>
+    <CardTitle className="font-semibold text-primary">{student.name}</CardTitle>
   </CardHeader>
-  <CardContent>{student.stars}</CardContent>
+  <CardContent className="text-center">{student.stars}</CardContent>
   <CardFooter>
-    <CardDescription>{student.opinion}</CardDescription>
+    <CardDescription className="text-primary">{student.opinion}</CardDescription>
   </CardFooter>
 </Card>
 

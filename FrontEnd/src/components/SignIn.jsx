@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Input } from "@ui/Input";
+import { ButtonShowPassword } from "@ui/ButtonShowPassword";
 import { Button } from "@ui/Button";
 import { Label } from "@ui/Label";
 import { z } from "zod";
@@ -10,9 +10,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
 import { Background } from "./Background.jsx";
+import { useContext, useState } from "react";
 
 const SignUp = () => {
+  const {dispatch}= useContext(AuthContext)
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -68,6 +71,14 @@ const SignUp = () => {
 
       if (response.status === 200) {
         alert("Entrando como profesor");
+       
+        dispatch({
+          type: "SIGNIN",
+          payload: response.data.data,
+
+        })
+        console.log(response.data.data)
+        localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/home");
       } else if (response.status === 401) {
         response = await axios.post(
@@ -75,11 +86,19 @@ const SignUp = () => {
           {
             correo: email,
             clave: password,
+
           }
         );
+   
 
         if (response.status === 200) {
           alert("Entrando como estudiante");
+
+          dispatch({
+            type: "SIGNIN",
+            payload: response.data.data,
+  
+          })
           navigate("/home");
         } else {
           alert("Credenciales incorrectas");
@@ -105,11 +124,13 @@ const SignUp = () => {
                 src="/edukids-logo.svg"
                 alt="Edu kids logo"
               />
-              <span className="font-bold ml-1 select-none">EduKids</span>
+              <span className="font-bold ml-1 select-none text-primary">
+                EduKids
+              </span>
             </div>
 
             <div className="flex items-center justify-between w-full">
-              <h2 className="font-bold my-7  text-base sm:text-lg">
+              <h2 className="font-bold my-7  text-base sm:text-lg text-primary">
                 Iniciar Sesión en EduKids
               </h2>
               <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent cursor-pointer">
@@ -124,7 +145,7 @@ const SignUp = () => {
               onSubmit={handleSubmit(handleSubmitData)}
             >
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="email" className="text-tertiary">
+                <Label htmlFor="email" className="text-tertiary text-primary">
                   Correo electronico
                 </Label>
                 <Input
@@ -144,7 +165,10 @@ const SignUp = () => {
               </div>
 
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="password" className="text-tertiary">
+                <Label
+                  htmlFor="password"
+                  className="text-tertiary text-primary"
+                >
                   Contraseña
                 </Label>
                 <div className="flex flex-row space-x-2">
@@ -155,15 +179,10 @@ const SignUp = () => {
                     placeholder="Contraseña"
                     {...register("password")}
                   />
-                  <Button
-                    size="icon"
-                    variant="icon"
-                    type="button"
-                    className="transition duration-300 hover:shadow-md focus:shadow-md border-2 border-input"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff /> : <Eye />}
-                  </Button>
+                  <ButtonShowPassword
+                    setShowPassword={setShowPassword}
+                    showPassword={showPassword}
+                  />
                 </div>
               </div>
               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
@@ -177,7 +196,7 @@ const SignUp = () => {
               <Button type="submit" variant="default">
                 Registrarse
               </Button>
-              <span className="text-tertiary text-xs sm:text-base">
+              <span className="text-tertiary text-xs sm:text-base text-primary">
                 ¿Todavia no tienes cuenta?
                 <Link
                   className="text-primary ml-1 hover:underline text-xs sm:text-base"
