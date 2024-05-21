@@ -42,46 +42,47 @@ export class profesorModel {
         }
     }
     static async createCourse({ input }) {
-        const { titulo, idProfesor, grado } = input
+        const { titulo, idProfesor, grado, description } = input;
         const fechaActual = new Date(Date.now()).toISOString();
-
+      
         try {
-            // Verificar si el grado ya existe
-            const [existingGrado] = await connection.query(
-                'SELECT idgrado FROM grado WHERE grado=?',
-                [grado]
+          // Verificar si el grado ya existe
+          const [existingGrado] = await connection.query(
+            'SELECT idgrado FROM grado WHERE grado=?',
+            [grado]
+          );
+          const [existingCurso] = await connection.query(
+            'SELECT idcursos FROM cursos WHERE titulo=?',
+            [titulo]
+          );
+      
+          let gradoID;
+          if (existingCurso.length > 0) {
+            return `It seems that the course "${titulo}" already exists`;
+          }
+          if (existingGrado.length > 0) {
+            gradoID = existingGrado[0].idgrado;
+          } else {
+            // Si no existe, insertar el grado y obtener su ID
+            const [insertGradoResult] = await connection.query(
+              'INSERT INTO grado (grado) VALUES (?)',
+              [grado]
             );
-            const [existingCurso] = await connection.query(
-                'SELECT idcursos FROM cursos WHERE titulo=?',
-                [titulo]
-            )
-
-            let gradoID;
-            if (existingCurso.length > 0) {
-                return `It seems that the course "${titulo}" already exists`;
-            }
-            if (existingGrado.length > 0) {
-                gradoID = existingGrado[0].idgrado;
-            } else {
-                // Si no existe, insertar el grado y obtener su ID
-                const [insertGradoResult] = await connection.query(
-                    'INSERT INTO grado (grado) VALUES (?)',
-                    [grado]
-                );
-                gradoID = insertGradoResult.insertId;
-            }
-
-            // Insertar el curso
-            const [cursoResult] = await connection.query(
-                'INSERT INTO cursos (titulo, fecha_publicacion, id_profesor, id_grado) VALUES (?, ?, ?, ?)',
-                [titulo, fechaActual, idProfesor, gradoID]
-            );
-
-            return cursoResult;
+            gradoID = insertGradoResult.insertId;
+          }
+      
+          // Insertar el curso
+          const [cursoResult] = await connection.query(
+            'INSERT INTO cursos (titulo, fecha_publicacion, id_profesor, id_grado, description) VALUES (?, ?, ?, ?, ?)',
+            [titulo, fechaActual, idProfesor, gradoID, description]
+          );
+     
+          return cursoResult;
         } catch (error) {
-            throw error;
+          throw error;
         }
-    }
+      }
+      
     static async signUpStudent({ input }) {
         const { nombre, apellido, correo, clave, fechaNac, sexo, celular, idCurso } = input
         try {
@@ -127,7 +128,7 @@ export class profesorModel {
     static async getCourses({ id }) {
         try {
             const [courses] = await connection.query(
-                'SELECT titulo, fecha_publicacion,id_grado FROM cursos WHERE id_profesor = ?',
+                'SELECT * FROM cursos WHERE id_profesor = ?',
                 [id]
             );
 

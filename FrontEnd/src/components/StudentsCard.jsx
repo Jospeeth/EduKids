@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@ui/Card";
 
 const StudentsCard = ({ className, ...props }) => {
   const students = [
@@ -41,7 +41,7 @@ const StudentsCard = ({ className, ...props }) => {
   </CardHeader>
   <CardContent className="text-center">{student.stars}</CardContent>
   <CardFooter>
-    <CardDescription className="text-primary">{student.opinion}</CardDescription>
+    <CardDescription className="text-gray-500 ">{student.opinion}</CardDescription>
   </CardFooter>
 </Card>
 

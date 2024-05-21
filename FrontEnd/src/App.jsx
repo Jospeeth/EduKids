@@ -1,9 +1,10 @@
 import  { useContext } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import LandingPage from "./components/LangingPage";
 import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import SignIn from "./components/SignIn";
+import UnauthorizedPage from "./components/UnauthorizedPage";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
@@ -15,12 +16,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         {user ? (
+        <>
           <Route
           path="/home/*"
           element={<Home/>}
         />
+          
+        </>
+        
         ) : (
-          <Route path="*" element={<Navigate to="/home/dashboard" />} />
+          <Route path="*" element={<UnauthorizedPage to="/unauthorized" />} />
         )}
 
         <Route path="/" element={<LandingPage />} />

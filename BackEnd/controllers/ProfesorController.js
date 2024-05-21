@@ -5,25 +5,28 @@ export class ProfesorController {
         const result = req.body;
         try {
             const profesorExist = await profesorModel.signUp({ input: result });
-
+    
             if (profesorExist) {
-                return
+                return res.status(409).json({
+                    status: "409",
+                    message: "Profesor already exist",
+                });
             }
+    
             return res.status(201).json({
                 status: "201",
-                message: "Profesor created",
+                message: "Profesor Created",
             });
-
-
-        } catch (status) {
-            return  res.status(409).json({
-                status: "409",
-                message: "Profesor already exists",
-
-            })
-
+    
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                status: "500",
+                message: "Internal Server Error",
+            });
         }
     }
+
 
     static async login(req, res) {
         const result = req.body;
@@ -67,7 +70,7 @@ export class ProfesorController {
             if (typeof course === 'object') {
                 return res.status(201).json({
                     status: "201",
-                    message: "Student created"
+                    message: "course created"
                 });
             }
             return res.status(409).json({
@@ -111,29 +114,30 @@ export class ProfesorController {
 
     static async getCourses(req, res) {
         const { id } = req.params;
-
+    
         try {
-            const courses = await profesorModel.getCourses({ id });
-
-            if (courses.length > 0) {
-                return res.status(200).json({
-                    status: 200,
-                    message: 'Profesor Courses Successfully Obtained',
-                    courses: courses
-                });
-            } else {
-                return res.status(404).json({
-                    status: 404,
-                    message: 'The Profesor has no related courses'
-                });
-            }
-        } catch (error) {
-            res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error'
+          const courses = await profesorModel.getCourses({ id });
+    
+          if (courses.length > 0) {
+            return res.status(200).json({
+              status: 200,
+              message: 'Profesor Courses Successfully Obtained',
+              courses: courses,
             });
+          } else {
+            return res.status(404).json({
+              status: 404,
+              message: 'The Profesor has no related courses',
+            });
+          }
+        } catch (error) {
+          return res.status(500).json({
+            status: 500,
+            message: 'Internal Server Error',
+          });
         }
-    }
+      }
+      
     static async createClassInCourse(req, res) {
         const result = req.body;
 

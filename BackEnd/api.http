@@ -27,9 +27,10 @@ Content-Type: application/json
 
 {
 
-"titulo":"Como el ambiente",
- "idProfesor": 1,
- "grado": "11"
+"titulo":"Introduction to Computer Science",
+ "idProfesor": 2,
+ "grado": "11",
+ "description": "Explore the fundamental concepts of computer science, including algorithms, data structures, and programming languages."
 }
 
 ###
@@ -48,7 +49,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:1234/profesor/cursos/1
+GET http://localhost:1234/profesor/cursos/2
 
 
 ###

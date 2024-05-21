@@ -1,9 +1,8 @@
-
-import { ArrowLeft} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Input } from "@ui/Input";
 import { Button } from "@ui/Button";
 
-import {ButtonShowPassword} from "@ui/ButtonShowPassword";
+import { ButtonShowPassword } from "@ui/ButtonShowPassword";
 import { Label } from "@ui/Label";
 import { Checkbox } from "@ui/Checkbox";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,18 +10,15 @@ import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import {Background} from "./Background.jsx";
+import { Background } from "./Background.jsx";
 
 import { z } from "zod";
 import { useState } from "react";
 
-const SignUp = () => {  
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-
-
   const navigate = useNavigate();
-
 
   const SignUpSchema = z
     .object({
@@ -91,10 +87,9 @@ const SignUp = () => {
       message: "Las contraseñas no coinciden",
     });
 
-    const setFristLetterToCapital=(str)=>{
-      return str.charAt(0).toUpperCase() + str.slice(1);
-
-   }
+  const setFristLetterToCapital = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   const {
     register,
@@ -103,32 +98,38 @@ const SignUp = () => {
   } = useForm({ resolver: zodResolver(SignUpSchema) });
 
   const handleSubmitData = async (data) => {
-      
     const { firstName, lastName, email, phone, password } = data;
-    const nombre = setFristLetterToCapital(firstName)
-    const apellido = setFristLetterToCapital(lastName)
-    const correo = email
-    const clave = password
-    const celular = phone
-    
-   
-    try{
-         axios.post("http://localhost:1234/profesor/registrarse",
-      {
-        nombre: nombre, 
-        apellido: apellido, 
-        correo: correo, 
-        clave: clave,  
-        celular:celular
-      }
-      )
-      navigate("/signin")
-    }catch(e){
-      if(e.response.status=== 409){
-        alert("El correo ya se encuentra registrado")
-      }
-    }
+    const nombre = setFristLetterToCapital(firstName);
+    const apellido = setFristLetterToCapital(lastName);
+    const correo = email;
+    const clave = password;
+    const celular = phone;
 
+    try {
+      const response = await axios.post(
+          "http://localhost:1234/profesor/registrarse",
+          {
+              nombre: nombre,
+              apellido: apellido,
+              correo: correo,
+              clave: clave,
+              celular: celular,
+          }
+      );
+  
+      if (response.status === 201) {
+          alert("Cuenta creada con éxito");
+          navigate("/signin");
+      }
+  } catch (error) {
+      if (error.response && error.response.status === 409) {
+          alert("El correo ya se encuentra registrado");
+      }
+      else if( error.response.status ===500){
+          alert("El Celular ya existe");
+      }
+  }
+  
   };
 
   return (
@@ -136,7 +137,7 @@ const SignUp = () => {
       <Helmet>
         <title>Crear Cuenta</title>
       </Helmet>
-      <Background/>
+      <Background />
       <div className="min-h-screen flex items-center justify-center  overflow-y-hidden">
         <main className=" shadow-2xl flex flex-col place-items-center p-6 bg-background rounded-xl">
           <div className="icon flex items-center justify-center">
@@ -145,7 +146,9 @@ const SignUp = () => {
               src="/edukids-logo.svg"
               alt="Edu kids logo"
             />
-            <span className="font-bold ml-1 select-none text-primary">EduKids</span>
+            <span className="font-bold ml-1 select-none text-primary">
+              EduKids
+            </span>
           </div>
 
           <div className="flex items-center justify-between w-full">
@@ -176,11 +179,11 @@ const SignUp = () => {
                   {...register("firstName")}
                 />
                 <div className=" sm:h-[20px] sm:mt-[0.4rem]">
-                {errors.firstName && (
-                  <span className="text-red-500 text-xs" >
-                    {errors.firstName.message}
-                  </span>
-                )}
+                  {errors.firstName && (
+                    <span className="text-red-500 text-xs">
+                      {errors.firstName.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -194,12 +197,12 @@ const SignUp = () => {
                   placeholder="Apellido"
                   {...register("lastName")}
                 />
-               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
-                {errors.lastName && (
-                  <span className="text-red-500 text-xs" >
-                    {errors.lastName.message}
-                  </span>
-                )}
+                <div className=" sm:h-[20px] sm:mt-[0.4rem]">
+                  {errors.lastName && (
+                    <span className="text-red-500 text-xs">
+                      {errors.lastName.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -214,13 +217,13 @@ const SignUp = () => {
                 placeholder="Correo electronico"
                 {...register("email")}
               />
-               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
+              <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                 {errors.email && (
-                  <span className="text-red-500 text-xs" >
+                  <span className="text-red-500 text-xs">
                     {errors.email.message}
                   </span>
                 )}
-                </div>
+              </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
               <Label htmlFor="phone" className="text-primary">
@@ -233,15 +236,15 @@ const SignUp = () => {
                 placeholder="Celular"
                 {...register("phone")}
               />
-               <div>
-               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
-                {errors.phone && (
-                  <span className="text-red-500 text-xs" >
-                    {errors.phone.message}
-                  </span>
-                )}
+              <div>
+                <div className=" sm:h-[20px] sm:mt-[0.4rem]">
+                  {errors.phone && (
+                    <span className="text-red-500 text-xs">
+                      {errors.phone.message}
+                    </span>
+                  )}
                 </div>
-               </div>
+              </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2">
               <Label htmlFor="password" className="text-primary">
@@ -255,17 +258,19 @@ const SignUp = () => {
                   placeholder="Contraseña"
                   {...register("password")}
                 />
-               
-               <ButtonShowPassword setShowPassword={setShowPassword} showPassword={showPassword} />
-                
+
+                <ButtonShowPassword
+                  setShowPassword={setShowPassword}
+                  showPassword={showPassword}
+                />
               </div>
               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                 {errors.password && (
-                  <span className="text-red-500 text-xs" >
+                  <span className="text-red-500 text-xs">
                     {errors.password.message}
                   </span>
                 )}
-                </div>
+              </div>
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-2 mb-4">
               <Label htmlFor="repeatPassword" className="text-primary">
@@ -278,13 +283,13 @@ const SignUp = () => {
                 placeholder="Confirmar Contraseña"
                 {...register("repeatPassword")}
               />
-               <div className=" sm:h-[10px] sm:mt-[0.4rem]">
+              <div className=" sm:h-[10px] sm:mt-[0.4rem]">
                 {errors.repeatPassword && (
-                  <span className="text-red-500 text-xs" >
+                  <span className="text-red-500 text-xs">
                     {errors.repeatPassword.message}
                   </span>
                 )}
-                </div>
+              </div>
             </div>
             <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
               <Checkbox id="terms" />

@@ -194,7 +194,7 @@ const SignUp = () => {
               </div>
 
               <Button type="submit" variant="default">
-                Registrarse
+                Iniciar Sesión
               </Button>
               <span className="text-tertiary text-xs sm:text-base text-primary">
                 ¿Todavia no tienes cuenta?
