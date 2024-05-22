@@ -15,7 +15,7 @@ import { Background } from "./Background.jsx";
 import { useContext, useState } from "react";
 
 const SignUp = () => {
-  const {dispatch}= useContext(AuthContext)
+  const { dispatch } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -71,13 +71,12 @@ const SignUp = () => {
 
       if (response.status === 200) {
         alert("Entrando como profesor");
-       
+
         dispatch({
           type: "SIGNIN",
           payload: response.data.data,
-
-        })
-        console.log(response.data.data)
+        });
+        console.log(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/home");
       } else if (response.status === 401) {
@@ -86,10 +85,8 @@ const SignUp = () => {
           {
             correo: email,
             clave: password,
-
           }
         );
-   
 
         if (response.status === 200) {
           alert("Entrando como estudiante");
@@ -97,8 +94,7 @@ const SignUp = () => {
           dispatch({
             type: "SIGNIN",
             payload: response.data.data,
-  
-          })
+          });
           navigate("/home");
         } else {
           alert("Credenciales incorrectas");
@@ -141,10 +137,9 @@ const SignUp = () => {
             </div>
 
             <form
-              className=" flex justify-center flex-col"
               onSubmit={handleSubmit(handleSubmitData)}
             >
-              <div className="grid w-full max-w items-center gap-1.5 mt-2">
+              <div className="grid w-full max-w items-center gap-1.5 mt-2 ">
                 <Label htmlFor="email" className="text-tertiary text-primary">
                   Correo electronico
                 </Label>
@@ -157,7 +152,7 @@ const SignUp = () => {
                 />
                 <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                   {errors.email && (
-                    <span className="text-red-500 text-xs">
+                    <span className="text-red-500 text-sm">
                       {errors.email.message}
                     </span>
                   )}
@@ -193,7 +188,11 @@ const SignUp = () => {
                 )}
               </div>
 
-              <Button type="submit" variant="default">
+              <Button
+                type="submit"
+                variant="default"
+                className="my-4 py-3 px-6 w-full"
+              >
                 Iniciar Sesión
               </Button>
               <span className="text-tertiary text-xs sm:text-base text-primary">

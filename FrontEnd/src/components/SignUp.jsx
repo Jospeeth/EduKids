@@ -180,7 +180,7 @@ const SignUp = () => {
                 />
                 <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                   {errors.firstName && (
-                    <span className="text-red-500 text-xs">
+                    <span className="text-red-500 text-sm">
                       {errors.firstName.message}
                     </span>
                   )}
@@ -199,7 +199,7 @@ const SignUp = () => {
                 />
                 <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                   {errors.lastName && (
-                    <span className="text-red-500 text-xs">
+                    <span className="text-red-500 text-sm">
                       {errors.lastName.message}
                     </span>
                   )}
@@ -219,7 +219,7 @@ const SignUp = () => {
               />
               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                 {errors.email && (
-                  <span className="text-red-500 text-xs">
+                  <span className="text-red-500 text-sm">
                     {errors.email.message}
                   </span>
                 )}
@@ -239,7 +239,7 @@ const SignUp = () => {
               <div>
                 <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                   {errors.phone && (
-                    <span className="text-red-500 text-xs">
+                    <span className="text-red-500 text-sm">
                       {errors.phone.message}
                     </span>
                   )}
@@ -266,7 +266,7 @@ const SignUp = () => {
               </div>
               <div className=" sm:h-[20px] sm:mt-[0.4rem]">
                 {errors.password && (
-                  <span className="text-red-500 text-xs">
+                  <span className="text-red-500 text-sm">
                     {errors.password.message}
                   </span>
                 )}
@@ -285,7 +285,7 @@ const SignUp = () => {
               />
               <div className=" sm:h-[10px] sm:mt-[0.4rem]">
                 {errors.repeatPassword && (
-                  <span className="text-red-500 text-xs">
+                  <span className="text-red-500 text-sm">
                     {errors.repeatPassword.message}
                   </span>
                 )}
@@ -301,7 +301,9 @@ const SignUp = () => {
               </Label>
             </div>
 
-            <Button type="submit" variant="default">
+            <Button type="submit" variant="default"
+             className="my-4 py-3 px-6 w-full">
+            
               Registrarse
             </Button>
             <span className="text-primary text-xs sm:text-base">

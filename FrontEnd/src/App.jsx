@@ -1,5 +1,8 @@
 import  { useContext } from "react";
-import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { FormCourses } from "./components/FormCourses";
+import Clases from './components/Clases'; // Cambia esto
+import { FormClasses } from "./components/FormClases";
 import LandingPage from "./components/LangingPage";
 import SignUp from "./components/SignUp";
 import Home from "./components/Home";
@@ -21,6 +24,13 @@ function App() {
           path="/home/*"
           element={<Home/>}
         />
+        
+        
+          <Route path="/crearcurso" element={<FormCourses />} />
+          <Route path="/clases/:id" element={<Clases />} />
+          <Route path="/agregarclase/:id" element={<FormClasses />} />
+         
+      
           
         </>
         
