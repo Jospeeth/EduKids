@@ -168,7 +168,7 @@ const SignUp = () => {
                 </Label>
                 <div className="flex flex-row space-x-2">
                   <Input
-                    type={showPassword ? "password" : "text"}
+                    type={showPassword ? "text"  : "password"}
                     id="password"
                     name="password"
                     placeholder="Contraseña"

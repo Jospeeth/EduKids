@@ -139,35 +139,57 @@ export class profesorModel {
     }
 
     static async createClassInCourse({ input }) {
-        const { nombreClase, imagenClase, idCurso } = input
+        const { nombreClase, imagenClase, idCurso, videoNombre, videoContenido, recursoArchivoLink } = input;
+    
         try {
             const [existingClase] = await connection.query(
-                'SELECT * FROM clases WHERE nombre_clase =?',
-                [nombreClase]
-
-            )
-
+                'SELECT * FROM clases WHERE nombre_clase = ? AND cursos_idcursos = ?',
+                [nombreClase, idCurso]
+            );
+    
             if (existingClase.length > 0) {
-                return `It seems that the class "${nombreClase}" already exists`;
-            }
-            else {
+                return { existingClase };
+            } else {
                 const [classCreated] = await connection.query(
                     'INSERT INTO clases (nombre_clase, imagen_clase, cursos_idcursos) VALUES (?, ?, ?)',
                     [nombreClase, imagenClase, idCurso]
                 );
+    
                 const [classInfo] = await connection.query(
-                    'SELECT * FROM clases WHERE idclases  = ?',
+                    'SELECT * FROM clases WHERE idclases = ?',
                     [classCreated.insertId]
                 );
-
-
-                return classInfo;
+    
+                const [videoCreated] = await connection.query(
+                    'INSERT INTO videos (nombre, contenido, id_clases) VALUES (?, ?, ?)',
+                    [videoNombre, videoContenido, classCreated.insertId]
+                );
+    
+                const [recursoCreated] = await connection.query(
+                    'INSERT INTO recursos (archivo_link, id_clases) VALUES (?, ?)',
+                    [recursoArchivoLink, classCreated.insertId]
+                );
+    
+                return {
+                    classInfo: classInfo[0],
+                    videoInfo: {
+                        id: videoCreated.insertId,
+                        nombre: videoNombre,
+                        contenido: videoContenido
+                    },
+                    recursoInfo: {
+                        id: recursoCreated.insertId,
+                        archivoLink: recursoArchivoLink
+                    },
+                    existingClase: []
+                };
             }
-
         } catch (error) {
+            console.error('Error in createClassInCourse model:', error); // Log the error for debugging
             throw error;
         }
     }
+    
 
     static async getClassesByCourse({ idCurso }) {
         try {
@@ -175,8 +197,22 @@ export class profesorModel {
                 'SELECT * FROM clases WHERE cursos_idcursos = ?',
                 [idCurso]
             );
+            const [video] = await connection.query(
+                'SELECT * FROM videos WHERE id_clases = ?',
+                [classes[0].idclases]
+            )
 
-            return classes;
+            const [recurso] = await connection.query(
+                'SELECT * FROM recursos WHERE id_clases = ?',
+                [classes[0].idclases]
+            )
+            
+
+            return {
+                clase: classes,
+                video: video,
+                recurso: recurso
+            };
         } catch (error) {
             throw error;
         }
@@ -194,35 +230,7 @@ export class profesorModel {
             throw error;
         }
     }
-    static async insertVideo({ input }) {
-        const { nombre, contenido, idClase } = input;
-
-        try {
-            const [result] = await connection.query(
-                'INSERT INTO videos (nombre, contenido, id_clases) VALUES (?, ?, ?)',
-                [nombre, contenido, idClase]
-            );
-
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    static async insertRecurso({ input }) {
-        const { archivoLink, idClase } = input;
-
-        try {
-            const [result] = await connection.query(
-                'INSERT INTO recursos (archivo_link, id_clases) VALUES (?, ?)',
-                [archivoLink, idClase]
-            );
-
-            return result;
-        } catch (error) {
-            throw error;
-        }
-    }
+  
 
     static async insertActividad({ input }) {
         const { mensaje, archivo, idClase } = input;

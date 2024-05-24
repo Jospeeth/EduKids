@@ -39,7 +39,7 @@ function App() {
         )}
 
         <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp isStudent={false} />} />
         <Route path="/signin" element={<SignIn />} />
       </Routes>
     </BrowserRouter>

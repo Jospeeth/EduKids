@@ -10,8 +10,6 @@ routersProfesor.post("/iniciarsesion", ProfesorController.login);
 routersProfesor.post("/crear/curso", ProfesorController.createCourse);
 routersProfesor.post("/registrar/estudiante", ProfesorController.signUpStudent);
 routersProfesor.post("/clases", ProfesorController.createClassInCourse);
-routersProfesor.post("/videos", ProfesorController.insertVideo);
-routersProfesor.post("/recursos", ProfesorController.insertRecurso);
 routersProfesor.post("/actividades", ProfesorController.insertActividad);
 
 

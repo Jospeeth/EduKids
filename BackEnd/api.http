@@ -59,36 +59,21 @@ Content-Type: application/json
 {
   "nombreClase": "Clase1",
   "imagenClase": "Image",
-  "idCurso": 9
+   "idCurso": 9,
+  "videoNombre": "aasas",
+  "videoContenido": "asdsadasdas",
+ 
+  "recursoArchivoLink": "asdasdsadasdasd"
 }
 
 
 ###
-GET http://localhost:1234/profesor/clases/curso/9
+GET http://localhost:1234/profesor/clases/curso/2
 
 
 ###
 GET http://localhost:1234/profesor/cursos/estudiantes/8
 
-###
-POST http://localhost:1234/profesor/videos
-Content-Type: application/json
-
-{
-  "nombre": "Clase1",
-  "contenido": "Image",
-  "idClase": 1
-}
-
-###
-POST http://localhost:1234/profesor/recursos
-Content-Type: application/json
-
-{
-  "archivoLink": "cosa",
-  "idClase": 1
-  
-}
 
 ###
 POST http://localhost:1234/profesor/actividades

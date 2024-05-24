@@ -15,7 +15,7 @@ import { Background } from "./Background.jsx";
 import { z } from "zod";
 import { useState } from "react";
 
-const SignUp = () => {
+const SignUp = ({isStudent}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
