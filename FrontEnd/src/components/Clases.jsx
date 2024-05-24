@@ -1,16 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
-
 import { Background } from "./Background";
 import { Card, CardContent, CardTitle, CardFooter } from "@ui/Card";
 import { Button } from "@ui/Button";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Clases = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;
+  const navigate = useNavigate()
   const [clases, setClases] = useState([]);
 
   const { id } = useParams();
@@ -28,6 +28,13 @@ const Clases = () => {
     };
     fetchClases();
   }, [clases]);
+  console.log(clases);
+
+ 
+
+  const getClassContent= (id) => {
+    navigate(`/contenidoClase/${id}`);
+  };
 
   return (
     <>
@@ -39,7 +46,7 @@ const Clases = () => {
           </h1>
           <div>
           <Link
-            className="text-primary-foreground  p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent cursor-pointer"
+            className="text-primary-foreground   gap-x-4 p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent cursor-pointer"
             to="/home"
           >
             Volver a cursos
@@ -63,9 +70,9 @@ const Clases = () => {
           {clases && clases.length > 0 ? (
             clases.map((clase) => (
               <li
-                key={clase.id_clase}
+                key={clase.idclases}
                 className="flex cursor-pointer"
-                // onClick={() => getClases(course.idcursos)}
+                onClick={() => getClassContent(id)}
               >
                 <Card className="flex flex-col h-[220px] flex-grow">
                   <CardContent className="flex place">
@@ -86,7 +93,7 @@ const Clases = () => {
               </li>
             ))
           ) : (
-            <li className="text-gray-500">No courses</li>
+            <li className="text-gray-500">No hay Clases</li>
           )}
         </ul>
       </div>
