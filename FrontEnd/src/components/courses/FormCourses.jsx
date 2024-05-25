@@ -10,20 +10,16 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext.jsx";
-import { Background } from "./Background.jsx";
+import { AuthContext } from "../../context/AuthContext.jsx";
+import { Background } from "../landingPage/Background.jsx";
 import { useContext, useState } from "react";
+import { capitalizeFirstLetter } from "../../lib/utils.js";
 
 export function FormCourses() {
   const navigate = useNavigate();
   const { state } = useContext(AuthContext);
   const { user } = state;
 
-  function capitalizeFirstLetter(string) {
-    if (!string) return ''; // Manejo de cadenas vacías o nulas
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
 
   const courseFormSchema = z.object({
     title: z.string().min(6, "Minimo 6 caracteres (titulo)"),

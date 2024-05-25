@@ -1,22 +1,24 @@
 import { ArrowLeft } from "lucide-react";
 import { Input } from "@ui/Input";
 import { Button } from "@ui/Button";
-
 import { ButtonShowPassword } from "@ui/ButtonShowPassword";
 import { Label } from "@ui/Label";
 import { Checkbox } from "@ui/Checkbox";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation  } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Background } from "./Background.jsx";
+import { Background } from "./landingPage/Background.jsx";
 
 import { z } from "zod";
 import { useState } from "react";
 
-const SignUp = ({isStudent}) => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const location = useLocation();
+  const isStudent = location.state?.isStudent || false;
+  console.log(isStudent)
 
   const navigate = useNavigate();
 
@@ -105,30 +107,44 @@ const SignUp = ({isStudent}) => {
     const clave = password;
     const celular = phone;
 
-    try {
-      const response = await axios.post(
-          "http://localhost:1234/profesor/registrarse",
-          {
-              nombre: nombre,
-              apellido: apellido,
-              correo: correo,
-              clave: clave,
-              celular: celular,
-          }
-      );
-  
-      if (response.status === 201) {
-          alert("Cuenta creada con éxito");
-          navigate("/signin");
-      }
-  } catch (error) {
-      if (error.response && error.response.status === 409) {
-          alert("El correo ya se encuentra registrado");
-      }
-      else if( error.response.status ===500){
-          alert("El Celular ya existe");
-      }
-  }
+ if(isStudent){
+  const response = await axios.post(
+    "http://localhost:1234/profesor/registrarse",
+    {
+        nombre: nombre,
+        apellido: apellido,
+        correo: correo,
+        clave: clave,
+        celular: celular,
+    }
+);
+ }
+ else{
+  try {
+    const response = await axios.post(
+        "http://localhost:1234/profesor/registrarse",
+        {
+            nombre: nombre,
+            apellido: apellido,
+            correo: correo,
+            clave: clave,
+            celular: celular,
+        }
+    );
+
+    if (response.status === 201) {
+        alert("Cuenta creada con éxito");
+        navigate("/signin");
+    }
+} catch (error) {
+    if (error.response && error.response.status === 409) {
+        alert("El correo ya se encuentra registrado");
+    }
+    else if( error.response.status ===500){
+        alert("El Celular ya existe");
+    }
+}
+ }
   
   };
 
@@ -156,7 +172,9 @@ const SignUp = ({isStudent}) => {
               Crear Cuenta en EduKids
             </h2>
             <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent cursor-pointer">
-              <Link className="text-primary" to="/">
+              <Link className="text-primary" to={
+                isStudent ? "/home" : "/"
+              }>
                 <ArrowLeft className="h-5 w-5 text-primary" />
               </Link>
             </div>

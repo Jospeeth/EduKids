@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
-import { Background } from "./Background";
+import { Background } from "../landingPage/Background";
 import { Link, useParams } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const ClassContent = () => {
   const { state } = useContext(AuthContext);

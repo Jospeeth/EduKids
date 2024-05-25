@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Background } from "./Background";
+import { Background } from "../landingPage/Background";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Courses = () => {
   const navigate = useNavigate();
@@ -24,10 +24,15 @@ const Courses = () => {
       }
     };
     fetchCourses();
-  }, []);
+  }, [user.idprofesos]);
 
   const getClases = (id) => {
     navigate(`/clases/${id}`);
+  };
+
+  const handleAddStudentClick = (event) => {
+    event.stopPropagation();
+    navigate('/signup', { state: { isStudent: true } });
   };
 
   return (
@@ -69,6 +74,7 @@ const Courses = () => {
                         <Button
                           className="bg-primary text-white hover:scale-105 transition-all duration-500  "
                           size="sm"
+                          onClick={handleAddStudentClick}
                         >
                           Agregar Alumno
                         </Button>
@@ -79,7 +85,7 @@ const Courses = () => {
               </li>
             ))
           ) : (
-            <li className="text-gray-500">No courses</li>
+            <li className="text-gray-500">No hay Cursos</li>
           )}
         </ul>
       </div>

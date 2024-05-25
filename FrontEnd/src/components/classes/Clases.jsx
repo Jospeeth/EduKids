@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
-import { Background } from "./Background";
+import { Background } from "../landingPage/Background";
 import { Card, CardContent, CardTitle, CardFooter } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Clases = () => {
   const { state } = useContext(AuthContext);
@@ -27,8 +27,7 @@ const Clases = () => {
       }
     };
     fetchClases();
-  }, [clases]);
-  console.log(clases);
+  }, []);
 
  
 

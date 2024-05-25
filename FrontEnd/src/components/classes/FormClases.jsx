@@ -9,20 +9,21 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Background } from "./Background.jsx";
+import { Background } from "../landingPage/Background";
+import { capitalizeFirstLetter } from "../../lib/utils.js";
+
 
 export function FormClasses() {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id)
 
 
   const classFormSchema = z.object({
-    nombreClase: z.string().min(6, "Mínimo 6 caracteres (nombreClase)"),
-    imagenClase: z.string().url("Debe ser una URL válida (imagen Clase)"),
-    videoNombre: z.string().min(6, "Mínimo 6 caracteres (videoNombre)"),
-    videoContenido: z.string().url("Debe ser una URL válida (video Contenido)"),
-        archivoLink: z.string().url("Debe ser una URL válida (archivoLink)")
+    nameClass: z.string().min(6, "Mínimo 6 caracteres (nombreClase)"),
+    imageClass: z.string().url("Debe ser una URL válida (imagen Clase)"),
+    nameVideo: z.string().min(6, "Mínimo 6 caracteres (videoNombre)"),
+    videoContent: z.string().url("Debe ser una URL válida (video Contenido)"),
+    fileLink: z.string().url("Debe ser una URL válida (archivoLink)")
   });
 
   const {
@@ -33,18 +34,20 @@ export function FormClasses() {
 
   const handleSubmitData = async (data) => {
 
-    const {nombreClase, imagenClase, videoNombre, videoContenido, archivoLink}= data
+    const {nameClass, imageClass, nameVideo, videoContent, fileLink}= data
+
+   const nameClassRefactored = capitalizeFirstLetter(nameClass)
+
     try {
       const claseResponse = await axios.post("http://localhost:1234/profesor/clases", {
-        nombreClase: nombreClase,
-        imagenClase: imagenClase,
+        nombreClase: nameClassRefactored,
+        imagenClase: imageClass,
         idCurso: parseInt(id),
-        videoNombre: videoNombre,
-        videoContenido: videoContenido,
-        recursoArchivoLink: archivoLink
+        videoNombre: nameVideo,
+        videoContenido: videoContent,
+        recursoArchivoLink: fileLink
       });
 
-      console.log(claseResponse);
       alert("Clase, video y recurso creados exitosamente.");
       navigate(`/clases/${id}`);
     } catch (error) {
@@ -86,21 +89,21 @@ export function FormClasses() {
               <div>
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
                   <Label
-                    htmlFor="nombreClase"
+                    htmlFor="nameClass"
                     className="text-tertiary text-primary"
                   >
                     Nombre de la Clase
                   </Label>
                   <Input
-                    id="nombreClase"
+                    id="nameClass"
                     type="text"
                     placeholder="Nombre de la clase"
-                    {...register("nombreClase")}
+                    {...register("nameClass")}
                   />
                   <div className="sm:h-[20px] sm:mt-[0.4rem]">
-                    {errors.nombreClase && (
+                    {errors.nameClass && (
                       <span className="text-red-500 text-sm">
-                        {errors.nombreClase.message}
+                        {errors.nameClass.message}
                       </span>
                     )}
                   </div>
@@ -108,88 +111,88 @@ export function FormClasses() {
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
                   <Label
-                    htmlFor="imagenClase"
+                    htmlFor="imageClass"
                     className="text-tertiary text-primary"
                   >
                     Imagen de la Clase
                   </Label>
                   <Input
-                    id="imagenClase"
+                    id="imageClass"
                     type="text"
                     placeholder="URL de la imagen"
-                    {...register("imagenClase")}
+                    {...register("imageClass")}
                   />
                 </div>
                 <div className="sm:h-[20px] sm:mt-[0.4rem]">
-                    {errors.imagenClase && (
+                    {errors.imageClass && (
                       <span className="text-red-500 text-sm">
-                        {errors.imagenClase.message}
+                        {errors.imageClass.message}
                       </span>
                     )}
                   </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
                   <Label
-                    htmlFor="videoNombre"
+                    htmlFor="nameVideo"
                     className="text-tertiary text-primary"
                   >
                     Nombre del Video
                   </Label>
                   <Input
-                    id="videoNombre"
+                    id="nameVideo"
                     type="text"
                     placeholder="Nombre del video"
-                    {...register("videoNombre")}
+                    {...register("nameVideo")}
                   />
                  
                 </div>
                 <div className="sm:h-[20px] sm:mt-[0.4rem]">
-                    {errors.videoNombre && (
+                    {errors.nameVideo && (
                       <span className="text-red-500 text-sm">
-                        {errors.videoNombre.message}
+                        {errors.nameVideo.message}
                       </span>
                     )}
                   </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
                   <Label
-                    htmlFor="videoContenido"
+                    htmlFor="videoContent"
                     className="text-tertiary text-primary"
                   >
                     Contenido del Video
                   </Label>
                   <Input
-                    id="videoContenido"
+                    id="videoContent"
                     type="text"
                     placeholder="Contenido del video"
-                    {...register("videoContenido")}
+                    {...register("videoContent")}
                   />
                 </div>
                 <div className="sm:h-[20px] sm:mt-[0.4rem]">
-                    {errors.videoContenido && (
+                    {errors.videoContent && (
                       <span className="text-red-500 text-sm">
-                        {errors.videoContenido.message}
+                        {errors.videoContent.message}
                       </span>
                     )}
                   </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
                   <Label
-                    htmlFor="archivoLink"
+                    htmlFor="fileLink"
                     className="text-tertiary text-primary"
                   >
                     Archivo del Recurso
                   </Label>
                   <Input
-                    id="archivoLink"
+                    id="fileLink"
                     type="text"
                     placeholder="URL del archivo"
-                    {...register("archivoLink")}
+                    {...register("fileLink")}
                   />
                   <div className="sm:h-[20px] sm:mt-[0.4rem]">
-                    {errors.archivoLink && (
+                    {errors.fileLink && (
                       <span className="text-red-500 text-sm">
-                        {errors.archivoLink.message}
+                        {errors.fileLink.message}
                       </span>
                     )}
                   </div>

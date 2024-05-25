@@ -11,7 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
-import { Background } from "./Background.jsx";
+import { Background } from "./landingPage/Background.jsx";
 import { useContext, useState } from "react";
 
 const SignUp = () => {
@@ -76,7 +76,6 @@ const SignUp = () => {
           type: "SIGNIN",
           payload: response.data.data,
         });
-        console.log(response.data.data);
         localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/home");
       } else if (response.status === 401) {

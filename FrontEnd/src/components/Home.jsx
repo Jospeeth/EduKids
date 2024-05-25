@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Button } from "@ui/Button";
 import { useNavigate } from "react-router-dom";
-import Courses from "./Courses";
+import Courses from "./courses/Courses";
 import { Link } from "react-router-dom";
 
 const Home = () => {
