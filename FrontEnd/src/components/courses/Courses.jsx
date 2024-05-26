@@ -20,7 +20,9 @@ const Courses = () => {
         );
         setCourses(coursesResponse.data.courses);
       } catch (error) {
-        console.error(error);
+        if(error.response.status===404){
+          return
+        }
       }
     };
     fetchCourses();
@@ -29,10 +31,11 @@ const Courses = () => {
   const getClases = (id) => {
     navigate(`/clases/${id}`);
   };
+;
 
-  const handleAddStudentClick = (event) => {
+  const handleAddStudentClick = (id, event) => {
     event.stopPropagation();
-    navigate('/signup', { state: { isStudent: true } });
+    navigate("/signup", { state: { isStudent: true, courseId: id } });
   };
 
   return (
@@ -74,7 +77,7 @@ const Courses = () => {
                         <Button
                           className="bg-primary text-white hover:scale-105 transition-all duration-500  "
                           size="sm"
-                          onClick={handleAddStudentClick}
+                          onClick={(event) => handleAddStudentClick(course.idcursos, event)}
                         >
                           Agregar Alumno
                         </Button>

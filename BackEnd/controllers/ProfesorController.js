@@ -102,12 +102,11 @@ export class ProfesorController {
             }
             res.status(409).json({
                 status: "409",
-                message: student,
+                message: 'Already exists a students with this email',
             });
         } catch (error) {
             res.status(500).json({
                 message: 'Error to sign up student',
-                error: error.message
             });
         }
     }

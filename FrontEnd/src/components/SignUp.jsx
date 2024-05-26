@@ -15,11 +15,15 @@ import { capitalizeFirstLetter } from "../lib/utils.js";
 import { z } from "zod";
 import { useState } from "react";
 
+
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const isStudent = location.state?.isStudent || false;
-  console.log(isStudent)
+  const courseId = location.state?.courseId || undefined;
+
+
+
 
   const navigate = useNavigate();
 
@@ -96,55 +100,52 @@ const SignUp = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(SignUpSchema) });
 
-  const handleSubmitData = async (data) => {
-    const { firstName, lastName, email, phone, password } = data;
-    const nombre = capitalizeFirstLetter(firstName);
-    const apellido = capitalizeFirstLetter(lastName);
-    const correo = email;
-    const clave = password;
-    const celular = phone;
 
- if(isStudent){
-  const response = await axios.post(
-    "http://localhost:1234/profesor/registrarse",
-    {
-        nombre: nombre,
-        apellido: apellido,
-        correo: correo,
-        clave: clave,
-        celular: celular,
-    }
-);
- }
- else{
-  try {
-    const response = await axios.post(
-        "http://localhost:1234/profesor/registrarse",
-        {
-            nombre: nombre,
-            apellido: apellido,
-            correo: correo,
-            clave: clave,
-            celular: celular,
-        }
-    );
 
-    if (response.status === 201) {
-        alert("Cuenta creada con éxito");
-     
-        
-    }
-} catch (error) {
-    if (error.response && error.response.status === 409) {
-        alert("El correo ya se encuentra registrado");
-    }
-    else if( error.response.status ===500){
-        alert("El Celular ya existe");
-    }
-}
- }
-  
-  };
+        const handleSubmitData = async (data) => {
+          const { firstName, lastName, email, phone, password } = data;
+          const nombre = capitalizeFirstLetter(firstName);
+          const apellido = capitalizeFirstLetter(lastName);
+          const correo = email;
+          const clave = password;
+          const celular = phone;
+      
+          const url = isStudent 
+              ? "http://localhost:1234/profesor/registrar/estudiante" 
+              : "http://localhost:1234/profesor/registrarse";
+      
+          try {
+              const response = await axios.post(url, {
+                  nombre: nombre,
+                  apellido: apellido,
+                  correo: correo,
+                  clave: clave,
+                  celular: celular,
+                  idCurso: courseId
+              });
+      
+              if (response.status === 201) {
+                  alert("Cuenta creada con éxito");
+                  navigate('/signin', { state: { isStudent } });
+              }
+          } catch (error) {
+              console.log(error);
+              if (error.response) {
+                  if (error.response.status === 409) {
+                      alert("El correo ya se encuentra registrado");
+                  } else if (error.response.status === 500) {
+                      alert("Ocurrió un error interno en el servidor. Por favor, inténtalo de nuevo más tarde.");
+                  } else {
+                      alert("Ocurrió un error inesperado. Por favor, inténtalo de nuevo.");
+                  }
+              } else if (error.request) {
+                  alert("No se pudo conectar con el servidor. Por favor, inténtalo de nuevo.");
+              } else {
+                  alert("Ocurrió un error inesperado. Por favor, inténtalo de nuevo.");
+              }
+          }
+      };
+      
 
   return (
     <>

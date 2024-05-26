@@ -40,10 +40,8 @@ Content-Type: application/json
 {
   "nombre": "Jose",
   "apellido": "Apellido",
-  "correo": "sdsd@example.com",
+  "correo": "aaaaa@example.com",
   "clave": "clave",
-  "fechaNac": "2000-03-03",
-  "sexo": "M",
   "celular": "324423",
   "idCurso": 8
 }

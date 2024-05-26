@@ -8,7 +8,6 @@ import { AuthContext } from "../../context/AuthContext";
 const ClassContent = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;
-  const [clases, setClases] = useState([]);
   const [video, setVideo] = useState(null);
   const [recurso, setRecurso] = useState(null);
 
@@ -18,10 +17,10 @@ const ClassContent = () => {
     const fetchClases = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:1234/profesor/clases/curso/${id}`
+          `http://localhost:1234/profesor/clase/${id}`
         );
         const data = response.data.classes;
-        setClases(data.clase);
+       
 
         const videoData = data.video[0]; 
         setVideo(videoData);    
@@ -33,7 +32,6 @@ const ClassContent = () => {
     };
     fetchClases();
   }, [id]);
-
   return (
     <>
       <Background />

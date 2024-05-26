@@ -20,7 +20,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isStudent = location.state?.isStudent || false;
-  console.log(isStudent)
+  console.log(isStudent);
 
   const SignUpSchema = z.object({
     email: z.string().email({ message: "Correo electronico invalido" }),
@@ -62,44 +62,27 @@ const SignUp = () => {
 
   const handleSubmitData = async (data) => {
     const { email, password } = data;
+
+    const url = isStudent
+      ? "http://localhost:1234/estudiante/iniciarsesion"
+      : "http://localhost:1234/profesor/iniciarsesion";
     try {
-      let response = await axios.post(
-        "http://localhost:1234/profesor/iniciarsesion",
-        {
-          correo: email,
-          clave: password,
-        }
-      );
+      let response = await axios.post(url, {
+        correo: email,
+        clave: password,
+      });
 
       if (response.status === 200) {
-        alert("Entrando como profesor");
-
+        alert(`Entrando como ${isStudent ? "estudiante" : "profesor"}`);
         dispatch({
           type: "SIGNIN",
-          payload: response.data.data,
+          payload: {
+            ...response.data.data, 
+            isStudent: isStudent
+          },
         });
         localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/home");
-      } else if (response.status === 401) {
-        response = await axios.post(
-          "http://localhost:1234/estudiante/iniciarsesion",
-          {
-            correo: email,
-            clave: password,
-          }
-        );
-
-        if (response.status === 200) {
-          alert("Entrando como estudiante");
-
-          dispatch({
-            type: "SIGNIN",
-            payload: response.data.data,
-          });
-          navigate("/home");
-        } else {
-          alert("Credenciales incorrectas");
-        }
       }
     } catch (error) {
       console.error(error);
@@ -137,9 +120,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            <form
-              onSubmit={handleSubmit(handleSubmitData)}
-            >
+            <form onSubmit={handleSubmit(handleSubmitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2 ">
                 <Label htmlFor="email" className="text-tertiary text-primary">
                   Correo electronico
@@ -169,7 +150,7 @@ const SignUp = () => {
                 </Label>
                 <div className="flex flex-row space-x-2">
                   <Input
-                    type={showPassword ? "text"  : "password"}
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     placeholder="Contraseña"
