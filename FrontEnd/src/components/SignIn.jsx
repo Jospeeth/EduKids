@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { Background } from "./landingPage/Background.jsx";
@@ -17,8 +17,10 @@ import { useContext, useState } from "react";
 const SignUp = () => {
   const { dispatch } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const isStudent = location.state?.isStudent || false;
+  console.log(isStudent)
 
   const SignUpSchema = z.object({
     email: z.string().email({ message: "Correo electronico invalido" }),

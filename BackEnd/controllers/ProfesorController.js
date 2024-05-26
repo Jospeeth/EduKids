@@ -184,6 +184,29 @@ export class ProfesorController {
         }
     }
 
+
+    
+    static async getClassByCourse(req, res) {
+        const { idClase } = req.params;
+    
+        try {
+            const classResponse = await profesorModel.getClassByCourse({ idClass: idClase });
+    
+            return res.status(200).json({
+                status: 200,
+                message: 'Class obtained',
+                classes: classResponse
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error'
+             
+            });
+        }
+    }
+    
+
     static async getStudentsByCourse(req, res) {
         const { idCurso } = req.params;
 
@@ -222,39 +245,6 @@ export class ProfesorController {
         }
     }
 
-    static async getVideosByClass(req, res) {
-        const { idClase } = req.params;
-        try {
-            const videos = await profesorModel.getVideosByClass(idClase);
-            return res.status(200).json({
-                status: 200,
-                message: 'Videos found',
-                data: videos
-            });
-        } catch (error) {
-            return res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error'
-            });
-        }
-    }
-
-    static async getRecursosByClass(req, res) {
-        const { idClase } = req.params;
-        try {
-            const recursos = await profesorModel.getRecursosByClass(idClase);
-            return res.status(200).json({
-                status: 200,
-                message: 'Recursos found',
-                data: recursos
-            });
-        } catch (error) {
-            return res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error'
-            });
-        }
-    }
 
     static async getActividadesByClass(req, res) {
         const { idClase } = req.params;

@@ -7,13 +7,14 @@ import { Button } from "@ui/Button";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
+
 const Clases = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;
   const navigate = useNavigate()
   const [clases, setClases] = useState([]);
 
-  const { id } = useParams();
+  const { id } = useParams(); 
 
   useEffect(() => {
     const fetchClases = async () => {
@@ -21,18 +22,17 @@ const Clases = () => {
         const clasesResponse = await axios.get(
           `http://localhost:1234/profesor/clases/curso/${id}`
         );
-        setClases(clasesResponse.data.classes.clase);
+        setClases(clasesResponse.data.classes);
       } catch (error) {
         console.error(error);
       }
     };
     fetchClases();
-  }, []);
-
- 
+  }, [id])
+   console.log(clases)
 
   const getClassContent= (id) => {
-    navigate(`/contenidoClase/${id}`);
+    navigate(`/contenidoclase/${id}`);
   };
 
   return (
@@ -71,7 +71,7 @@ const Clases = () => {
               <li
                 key={clase.idclases}
                 className="flex cursor-pointer"
-                onClick={() => getClassContent(id)}
+                onClick={() => getClassContent(clase.idclases)}
               >
                 <Card className="flex flex-col h-[220px] flex-grow">
                   <CardContent className="flex place">

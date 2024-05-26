@@ -197,19 +197,36 @@ export class profesorModel {
                 'SELECT * FROM clases WHERE cursos_idcursos = ?',
                 [idCurso]
             );
-            const [video] = await connection.query(
-                'SELECT * FROM videos WHERE id_clases = ?',
-                [classes[0].idclases]
-            )
-
-            const [recurso] = await connection.query(
-                'SELECT * FROM recursos WHERE id_clases = ?',
-                [classes[0].idclases]
-            )
             
 
+            return classes
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    static async getClassByCourse({ idClass }) {
+        try {
+            const [classResponse] = await connection.query(
+                'SELECT * FROM clases WHERE idclases = ?',  
+                [idClass]
+            );
+    
+            // Consulta para obtener el video relacionado con la clase
+            const [video] = await connection.query(
+                'SELECT * FROM videos WHERE id_clases = ?',
+                [classResponse[0].idclases]
+            );
+    
+            // Consulta para obtener el recurso relacionado con la clase
+            const [recurso] = await connection.query(
+                'SELECT * FROM recursos WHERE id_clases = ?',
+                [classResponse[0].idclases]
+            );
+    
             return {
-                clase: classes,
+                clase: classResponse[0], // Retorna el primer elemento de la respuesta
                 video: video,
                 recurso: recurso
             };
@@ -217,6 +234,7 @@ export class profesorModel {
             throw error;
         }
     }
+    
 
     static async getStudentsByCourse({ idCurso }) {
         try {
@@ -242,29 +260,6 @@ export class profesorModel {
             );
 
             return result;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    static async getVideosByClass(idClase) {
-        try {
-            const [videos] = await connection.query(
-                'SELECT * FROM videos WHERE id_clases = ?',
-                [idClase]
-            );
-            return videos;
-        } catch (error) {
-            throw error;
-        }
-    }
-    static async getRecursosByClass(idClase) {
-        try {
-            const [recursos] = await connection.query(
-                'SELECT * FROM recursos WHERE id_clases = ?',
-                [idClase]
-            );
-            return recursos;
         } catch (error) {
             throw error;
         }

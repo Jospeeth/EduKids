@@ -86,11 +86,13 @@ Content-Type: application/json
 }
 
 
-###
-GET http://localhost:1234/profesor/videos/1
-###
+
 
 
 ###
 GET http://localhost:1234/profesor/actividades/1
 
+
+
+###
+GET http://localhost:1234/profesor/clase/12

@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Background } from "./landingPage/Background.jsx";
+import { capitalizeFirstLetter } from "../lib/utils.js";
 
 import { z } from "zod";
 import { useState } from "react";
@@ -89,10 +90,6 @@ const SignUp = () => {
       message: "Las contraseñas no coinciden",
     });
 
-  const setFristLetterToCapital = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
   const {
     register,
     handleSubmit,
@@ -101,8 +98,8 @@ const SignUp = () => {
 
   const handleSubmitData = async (data) => {
     const { firstName, lastName, email, phone, password } = data;
-    const nombre = setFristLetterToCapital(firstName);
-    const apellido = setFristLetterToCapital(lastName);
+    const nombre = capitalizeFirstLetter(firstName);
+    const apellido = capitalizeFirstLetter(lastName);
     const correo = email;
     const clave = password;
     const celular = phone;
@@ -134,7 +131,8 @@ const SignUp = () => {
 
     if (response.status === 201) {
         alert("Cuenta creada con éxito");
-        navigate("/signin");
+     
+        
     }
 } catch (error) {
     if (error.response && error.response.status === 409) {
