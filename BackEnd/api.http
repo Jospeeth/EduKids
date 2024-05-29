@@ -26,7 +26,7 @@ Content-Type: application/json
 
 {
   "correo": "yurancydelarosa@gmail.com",
-  "clave": "194757616J."
+  "clave": "194757616Jo."
 }
 ###
 POST http://localhost:1234/profesor/crear/curso

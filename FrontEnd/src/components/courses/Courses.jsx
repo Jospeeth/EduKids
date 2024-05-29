@@ -15,24 +15,29 @@ const Courses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
+        if (user.isStudent) {
+          const coursesResponse = await axios.get(
+            `http://localhost:1234/estudiante/cursos/${user.idestudiantes}`
+          );
+          setCourses(coursesResponse.data.courses);
+          return;
+        }
         const coursesResponse = await axios.get(
           `http://localhost:1234/profesor/cursos/${user.idprofesos}`
         );
         setCourses(coursesResponse.data.courses);
       } catch (error) {
-        if(error.response.status===404){
-          return
+        if (error.response.status === 404) {
+          return;
         }
       }
     };
     fetchCourses();
-  }, [user.idprofesos]);
+  }, []);
 
   const getClases = (id) => {
     navigate(`/clases/${id}`);
   };
-;
-
   const handleAddStudentClick = (id, event) => {
     event.stopPropagation();
     navigate("/signup", { state: { isStudent: true, courseId: id } });
@@ -77,7 +82,9 @@ const Courses = () => {
                         <Button
                           className="bg-primary text-white hover:scale-105 transition-all duration-500  "
                           size="sm"
-                          onClick={(event) => handleAddStudentClick(course.idcursos, event)}
+                          onClick={(event) =>
+                            handleAddStudentClick(course.idcursos, event)
+                          }
                         >
                           Agregar Alumno
                         </Button>

@@ -19,8 +19,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const isStudent = location.state?.isStudent || false;
-  console.log(isStudent);
+  //const isStudent = location.state?.isStudent || false;
 
   const SignUpSchema = z.object({
     email: z.string().email({ message: "Correo electronico invalido" }),
@@ -60,32 +59,48 @@ const SignUp = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(SignUpSchema) });
 
-  const handleSubmitData = async (data) => {
-    const { email, password } = data;
-
-    const url = isStudent
-      ? "http://localhost:1234/estudiante/iniciarsesion"
-      : "http://localhost:1234/profesor/iniciarsesion";
+  const handleSignIn = async (url, data, userType) => {
+    // eslint-disable-next-line no-useless-catch
     try {
-      let response = await axios.post(url, {
-        correo: email,
-        clave: password,
-      });
-
+      const response = await axios.post(url, data);
       if (response.status === 200) {
-        alert(`Entrando como ${isStudent ? "estudiante" : "profesor"}`);
+        alert(`Entrando como ${userType}`);
         dispatch({
           type: "SIGNIN",
-          payload: {
-            ...response.data.data, 
-            isStudent: isStudent
-          },
+          payload:
+            userType === "profesor"
+              ? response.data.data
+              : { ...response.data.data, isStudent: true },
         });
         localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/home");
+        return true;
       }
     } catch (error) {
-      console.error(error);
+      throw error;
+    }
+    return false;
+  };
+
+  const handleSubmitData = async (data) => {
+    const { email, password } = data;
+    const credentials = { correo: email, clave: password };
+
+    const isTeacher = await handleSignIn(
+      "http://localhost:1234/profesor/iniciarsesion",
+      credentials,
+      "profesor"
+    );
+
+    if (!isTeacher) {
+      const isStudent = await handleSignIn(
+        "http://localhost:1234/estudiante/iniciarsesion",
+        credentials,
+        "estudiante"
+      );
+      if (!isStudent) {
+        alert("Credenciales incorrectas");
+      }
     }
   };
 

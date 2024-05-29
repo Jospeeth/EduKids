@@ -29,7 +29,6 @@ const Clases = () => {
     };
     fetchClases();
   }, [id])
-   console.log(clases)
 
   const getClassContent= (id) => {
     navigate(`/contenidoclase/${id}`);

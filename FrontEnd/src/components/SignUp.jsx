@@ -129,7 +129,7 @@ const SignUp = () => {
                   navigate('/signin', { state: { isStudent } });
               }
           } catch (error) {
-              console.log(error);
+            
               if (error.response) {
                   if (error.response.status === 409) {
                       alert("El correo ya se encuentra registrado");

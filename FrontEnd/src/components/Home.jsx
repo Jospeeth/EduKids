@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const { state, dispatch } = useContext(AuthContext);
   const { user } = state;
+
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -24,20 +25,6 @@ const Home = () => {
           <Button className="border-2 hover:scale-110 transition-all duration-300" onClick={handleLogoutClick}>Cerrar sesión</Button>
         </div>
       </header>
-
-      {/* <nav className="bg-gray-200 p-4">
-        <div className="container mx-auto">
-          <ul className="flex space-x-4">
-         
-            <li>
-              <Link to="/courses">Courses</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-          </ul>
-        </div>
-      </nav> */}
 
       <div className="container mx-auto px-4 py-8">
        
