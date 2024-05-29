@@ -16,11 +16,18 @@ POST http://localhost:1234/profesor/iniciarsesion
 Content-Type: application/json
 
 {
-
 "correo": "japertuzd@gmail.com", 
 "clave": "194757616"
 }
 
+###
+POST http://localhost:1234/estudiante/iniciarsesion
+Content-Type: application/json
+
+{
+  "correo": "yurancydelarosa@gmail.com",
+  "clave": "194757616J."
+}
 ###
 POST http://localhost:1234/profesor/crear/curso
 Content-Type: application/json

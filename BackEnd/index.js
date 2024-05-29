@@ -9,7 +9,7 @@ app.use(json());
 app.use(corsMiddleware());
 
 app.use("/profesor", routersProfesor);
-//app.use("/student", routersStudent);
+app.use("/estudiante", routersStudent);
 
 const port = process.env.PORT ?? 1234;
 
