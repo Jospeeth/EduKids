@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react";
 import { Background } from "../landingPage/Background";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { isStudent } from "../../lib/utils";
 const ClassContent = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;

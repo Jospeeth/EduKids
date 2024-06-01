@@ -1,16 +1,12 @@
-import { clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+  import { clsx } from "clsx"
+  import { twMerge } from "tailwind-merge"
 
-export function cn(...inputs) {
-  return twMerge(clsx(inputs))
-}
+  export function cn(...inputs) {
+    return twMerge(clsx(inputs))
+  }
 
-export function capitalizeFirstLetter(string) {
-  if (!string) return ''; 
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+  export function capitalizeFirstLetter(string) {
+    if (!string) return ''; 
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
-
-export const user = JSON.parse(localStorage.getItem('user')) || null
-export const isStudent = user && user.isStudent ? user.isStudent : false;
-export const className = isStudent ? "hidden" : "block";

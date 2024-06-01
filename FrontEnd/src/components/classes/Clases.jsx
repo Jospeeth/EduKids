@@ -6,16 +6,14 @@ import { Card, CardContent, CardTitle, CardFooter } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { isStudent,className } from "../../lib/utils";
 
 const Clases = () => {
-  const { state } = useContext(AuthContext);
+  const { state, isStudent, className } = useContext(AuthContext);
   const { user } = state;
   const navigate = useNavigate()
   const [clases, setClases] = useState([]);
 
   const { id } = useParams(); 
-
   useEffect(() => {
     const fetchClases = async () => {
       try {

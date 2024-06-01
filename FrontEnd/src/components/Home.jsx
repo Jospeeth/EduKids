@@ -14,6 +14,7 @@ const Home = () => {
   const handleLogoutClick = () => {
     dispatch({ type: "SIGNOUT" });
     navigate("/");
+    localStorage.clear()
     localStorage.removeItem("user");
   };
 

@@ -18,8 +18,7 @@ const SignUp = () => {
   const { dispatch } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  //const isStudent = location.state?.isStudent || false;
+
 
   const SignUpSchema = z.object({
     email: z.string().email({ message: "Correo electronico invalido" }),
@@ -79,7 +78,7 @@ const SignUp = () => {
         return true;
       }
     } catch (error) {
-      console.log(error);
+      console.log();
     }
     return false;
   };

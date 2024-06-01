@@ -112,3 +112,6 @@ GET  http://localhost:1234/estudiante/clases/2
 
 ###
 GET  http://localhost:1234/estudiante/clase/12
+
+###
+GET  http://localhost:1234/profesor/cursos/estudiantes/2

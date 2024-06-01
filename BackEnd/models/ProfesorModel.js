@@ -233,7 +233,11 @@ export class profesorModel {
     static async getStudentsByCourse({ idCurso }) {
         try {
             const [students] = await connection.query(
-                'SELECT estudiantes.* FROM estudiantes JOIN estudiantes_x_cursos ON estudiantes.idestudiantes = estudiantes_x_cursos.id_estudiantes WHERE estudiantes_x_cursos.id_cursos = ?',
+                `SELECT COUNT(estudiantes.idestudiantes) AS cantidad_estudiantes
+                FROM estudiantes
+                JOIN estudiantes_x_cursos ON estudiantes.idestudiantes = estudiantes_x_cursos.id_estudiantes
+                WHERE estudiantes_x_cursos.id_cursos = ?;
+                `,
                 [idCurso]
             );
 
