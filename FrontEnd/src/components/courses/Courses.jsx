@@ -1,21 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import axios from "axios";
 import { Background } from "../landingPage/Background";
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { isStudent, user,className } from "../../lib/utils";
 
 const Courses = () => {
   const navigate = useNavigate();
-  const { state } = useContext(AuthContext);
-  const { user } = state;
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        if (user.isStudent) {
+        if (isStudent) {
           const coursesResponse = await axios.get(
             `http://localhost:1234/estudiante/cursos/${user.idestudiantes}`
           );
@@ -42,7 +40,6 @@ const Courses = () => {
     event.stopPropagation();
     navigate("/signup", { state: { isStudent: true, courseId: id } });
   };
-
   return (
     <>
       <Background />
@@ -51,7 +48,7 @@ const Courses = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Mis Cursos</h1>
 
-          <Button className="bg-primary" size="sm">
+          <Button className={`bg-primary ${className}`} size="sm">
             <Link to="/crearcurso">Agregar Curso</Link>
           </Button>
         </div>
@@ -79,15 +76,27 @@ const Courses = () => {
                         Enrolled: 120 students
                       </span>
                       <div className="flex gap-2">
-                        <Button
-                          className="bg-primary text-white hover:scale-105 transition-all duration-500  "
-                          size="sm"
-                          onClick={(event) =>
-                            handleAddStudentClick(course.idcursos, event)
-                          }
-                        >
-                          Agregar Alumno
-                        </Button>
+                        { 
+                        isStudent
+                        ? (
+                          <Button
+                            className="bg-primary"
+                            size="sm"
+                            onClick={(event) => getClases(course.idcursos, event)}
+                          >
+                            Ver Clases
+                          </Button>
+                          
+                        ) : (
+                          <Button
+                            className="bg-primary"
+                            size="sm"
+                            onClick={(event) => handleAddStudentClick(course.idcursos, event)}
+                          >
+                            Agregar Estudiante
+                          </Button>
+                        )
+                        }
                       </div>
                     </div>
                   </CardContent>

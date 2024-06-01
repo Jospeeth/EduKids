@@ -60,7 +60,8 @@ const SignUp = () => {
   } = useForm({ resolver: zodResolver(SignUpSchema) });
 
   const handleSignIn = async (url, data, userType) => {
-    // eslint-disable-next-line no-useless-catch
+
+    const isStudent = userType === "estudiante";
     try {
       const response = await axios.post(url, data);
       if (response.status === 200) {
@@ -72,12 +73,13 @@ const SignUp = () => {
               ? response.data.data
               : { ...response.data.data, isStudent: true },
         });
-        localStorage.setItem("user", JSON.stringify(response.data.data));
+        isStudent ? localStorage.setItem("user", JSON.stringify({ ...response.data.data, isStudent }))
+       : localStorage.setItem("user", JSON.stringify(response.data.data));
         navigate("/home");
         return true;
       }
     } catch (error) {
-      throw error;
+      console.log(error);
     }
     return false;
   };

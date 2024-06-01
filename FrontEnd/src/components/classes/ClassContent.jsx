@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Background } from "../landingPage/Background";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
+import { isStudent } from "../../lib/utils";
 const ClassContent = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;
@@ -16,22 +16,27 @@ const ClassContent = () => {
   useEffect(() => {
     const fetchClases = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:1234/profesor/clase/${id}`
-        );
-        const data = response.data.classes;
-       
+        let url = isStudent
+          ? `http://localhost:1234/estudiante/clase/${id}`
+          : `http://localhost:1234/profesor/clase/${id}`;
 
-        const videoData = data.video[0]; 
-        setVideo(videoData);    
-        const recursoData = data.recurso[0];
-        setRecurso(recursoData);
+        const response = await axios.get(url);
+
+        const data = response.data.class;
+
+        const videoData = {
+          url: data[0].video_contenido,
+          name: data[0].video_nombre,
+        };
+        setVideo(videoData);
+        setRecurso(data[0].recurso_link);
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchClases();
-  }, [id]);
+  }, []);
   return (
     <>
       <Background />
@@ -55,14 +60,18 @@ const ClassContent = () => {
       <section className="flex flex-col items-center justify-center m-auto">
         {video && (
           <div className="container mx-auto mt-8 space-y-10 flex flex-col items-center">
-            <h2 className="text-primary text-4xl font-semibold">Video: {video.nombre}</h2>
+            <h2 className="text-primary text-4xl font-semibold">
+              Video: {video.name}
+            </h2>
 
             <div className="w-full aspect-w-16 aspect-h-9">
               <iframe
                 title="Video"
                 width="900"
                 height="500"
-                src={`https://www.youtube.com/embed/${video.contenido.split("/").pop()}`}
+                src={`https://www.youtube.com/embed/${video.url
+                  .split("/")
+                  .pop()}`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -76,7 +85,7 @@ const ClassContent = () => {
           <div className="container mx-auto mt-4 flex flex-col items-center">
             <h2>Aquí tienes material adicional para este tema</h2>
             <a
-              href={recurso.archivo_link}
+              href={recurso}
               target="_blank"
               rel="noreferrer"
               className="inline-block mt-2 px-4 py-2 bg-primary text-white rounded hover:bg-blue-600 transition duration-300"

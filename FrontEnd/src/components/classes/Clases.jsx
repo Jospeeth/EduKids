@@ -6,7 +6,7 @@ import { Card, CardContent, CardTitle, CardFooter } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
+import { isStudent,className } from "../../lib/utils";
 
 const Clases = () => {
   const { state } = useContext(AuthContext);
@@ -19,6 +19,13 @@ const Clases = () => {
   useEffect(() => {
     const fetchClases = async () => {
       try {
+        if (isStudent) {
+          const clasesResponse = await axios.get(
+            `http://localhost:1234/estudiante/clases/${id}`
+          );
+          setClases(clasesResponse.data.classes);
+          return;
+        }
         const clasesResponse = await axios.get(
           `http://localhost:1234/profesor/clases/curso/${id}`
         );
@@ -59,7 +66,7 @@ const Clases = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Mis Clases</h1>
 
-          <Button className="bg-primary" size="sm">
+          <Button  className={`bg-primary ${className}`}  size="sm">
             <Link to={`/agregarclase/${id}`}>Agregar Clase</Link>
           </Button>
         </div>
