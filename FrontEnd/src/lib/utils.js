@@ -11,6 +11,6 @@ export function capitalizeFirstLetter(string) {
 }
 
 
-export const user = JSON.parse(localStorage.getItem('user'))
-export const isStudent = user.isStudent
+export const user = JSON.parse(localStorage.getItem('user')) || null
+export const isStudent = user && user.isStudent ? user.isStudent : false;
 export const className = isStudent ? "hidden" : "block";
