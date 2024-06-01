@@ -194,7 +194,7 @@ export class ProfesorController {
             return res.status(200).json({
                 status: 200,
                 message: 'Class obtained',
-                classes: classResponse
+                class: classResponse
             });
         } catch (error) {
             return res.status(500).json({

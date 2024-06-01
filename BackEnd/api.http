@@ -101,3 +101,14 @@ GET http://localhost:1234/profesor/actividades/1
 
 ###
 GET http://localhost:1234/profesor/clase/12
+
+
+###
+GET  http://localhost:1234/estudiante/cursos/4
+
+
+###
+GET  http://localhost:1234/estudiante/clases/2
+
+###
+GET  http://localhost:1234/estudiante/clase/12

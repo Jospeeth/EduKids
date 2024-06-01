@@ -206,27 +206,24 @@ export class profesorModel {
     static async getClassByCourse({ idClass }) {
         try {
             const [classResponse] = await connection.query(
-                'SELECT * FROM clases WHERE idclases = ?',
-                [idClass]
-            );
+                `SELECT 
+                c.nombre_clase, 
+                c.imagen_clase, 
+                c.idclases, 
+                v.nombre AS video_nombre, 
+                v.contenido AS video_contenido,
+                r.archivo_link AS recurso_link
+            FROM 
+                clases c
+            LEFT JOIN recursos r ON r.id_clases = c.idclases
+            LEFT JOIN videos v ON v.id_clases = c.idclases
+            WHERE 
+                c.idclases = ?;
+           `, [idClass]
 
-            // Consulta para obtener el video relacionado con la clase
-            const [video] = await connection.query(
-                'SELECT * FROM videos WHERE id_clases = ?',
-                [classResponse[0].idclases]
-            );
+            )
 
-            // Consulta para obtener el recurso relacionado con la clase
-            const [recurso] = await connection.query(
-                'SELECT * FROM recursos WHERE id_clases = ?',
-                [classResponse[0].idclases]
-            );
-
-            return {
-                clase: classResponse[0], // Retorna el primer elemento de la respuesta
-                video: video,
-                recurso: recurso
-            };
+            return classResponse
         } catch (error) {
             throw error;
         }
