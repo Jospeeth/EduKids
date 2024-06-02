@@ -36,12 +36,12 @@ const StudentsCard = ({ className, ...props }) => {
   return students.map((student) => (
 <Card key={student.name} className={cn("w-[250px]", className)} {...props}>
   <CardHeader className="flex flex-col items-center">
-    <img src={student.image} alt={student.name} className="h-20 w-20 rounded-full border-4 border- "  />
+    <img src={student.image} alt={student.name} className="h-25 w-25 rounded-full  "  />
     <CardTitle className="font-semibold text-primary">{student.name}</CardTitle>
   </CardHeader>
   <CardContent className="text-center">{student.stars}</CardContent>
   <CardFooter>
-    <CardDescription className="text-gray-500 ">{student.opinion}</CardDescription>
+    <CardDescription className="text-gray-600 text-lg text-center">{student.opinion}</CardDescription>
   </CardFooter>
 </Card>
 
