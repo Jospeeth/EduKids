@@ -63,7 +63,12 @@ const LandingPage = () => {
       </header>
       <main className="overflow-x-hidden pt-10 sm:pt-20 space-y-10 sm:space-y-5">
         <BackgroundLanding />
-        <section className="flex flex-row px-10 justify-center sm:flex-row sm:pt-24 sm:w-9/12 m-2 gap-3 sm:space-x-8 sm:m-auto"></section>
+        <section className="flex flex-row px-10 justify-center sm:flex-row sm:pt-24 sm:w-9/12 m-2 gap-3 sm:space-x-8 sm:m-auto">
+
+       
+            <img src="../../assets/images/shot.png" alt=""  className="h-20 w-20"/>
+    
+        </section>
 
         <section className="sm:pt-10 pb-10 mx-5 flex flex-col justify-center items-center">
           <h2 className="text-4xl sm:text-5xl font-bold px-2 text-center mt-6 text-primary mb-8">

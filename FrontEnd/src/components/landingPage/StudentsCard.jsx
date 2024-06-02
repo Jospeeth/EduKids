@@ -13,14 +13,14 @@ const StudentsCard = ({ className, ...props }) => {
     {
       image: "https://unavatar.io/twitter/elonmusk",
       opinion:
-        "This platform is fantastic for kids! They enjoy learning and I see their improvement every day.",
+        "Esta plataforma es fantástica para los niños. Disfrutan aprendiendo y veo que mejoran cada día.",
       stars: "⭐⭐⭐⭐⭐",
       name: "Elon Musk",
     },
     {
       image: "https://unavatar.io/twitter/AdamSandler",
       opinion:
-        "Edukids has a great variety of educational content that keeps my children engaged.",
+        "Edukids tiene una gran variedad de contenido educativo que mantiene a mis hijos interesados.",
       stars: "⭐⭐⭐⭐⭐",
       name: "Adam Sandler",
     },
@@ -28,7 +28,7 @@ const StudentsCard = ({ className, ...props }) => {
     {
       image: "https://unavatar.io/twitter/Samurai_Trump",
       opinion:
-        "The interactive activities are very helpful and fun. My child loves them!",
+        "Las actividades interactivas son muy útiles y divertidas. ¡A mi hijo le encantan!",
       stars: "⭐⭐⭐⭐⭐",
       name: "Donal Trump",
     },

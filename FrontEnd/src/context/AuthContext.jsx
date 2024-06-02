@@ -17,12 +17,13 @@ function authReducer(state, action) {
       return state;
   }
 }
+//genrerate a server
+
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const isStudent = state.user && state.user.isStudent !== undefined ? state.user.isStudent : false;
   const className = isStudent ? "hidden" : "block";
-console.log('state :>> ', state.user);
 
   return (
     <AuthContext.Provider value={{ state, dispatch, isStudent, className }}>
