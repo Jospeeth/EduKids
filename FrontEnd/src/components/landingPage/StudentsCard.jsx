@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@ui/Card";
+} from "@ui/Cards";
 
 const StudentsCard = ({ className, ...props }) => {
   const students = [

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Background } from "../landingPage/Background";
-import { Card, CardContent, CardHeader, CardTitle } from "@ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/Cards";
 import { Button } from "@ui/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";

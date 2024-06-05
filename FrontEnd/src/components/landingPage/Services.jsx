@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, CardTitle } from "@ui/Card";
+import { Card, CardHeader, CardContent, CardTitle } from "@ui/Cards";
 const services = [
         {
           title: "Gestión de cursos",
