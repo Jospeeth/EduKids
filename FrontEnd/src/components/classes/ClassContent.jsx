@@ -5,7 +5,7 @@ import { Background } from "../landingPage/Background";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 const ClassContent = () => {
-  const { state } = useContext(AuthContext);
+  const { state, isStudent } = useContext(AuthContext);
   const { user } = state;
   const [video, setVideo] = useState(null);
   const [recurso, setRecurso] = useState(null);
