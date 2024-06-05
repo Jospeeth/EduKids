@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { domain } from "../../lib/utils.js";
+
+
 const Courses = () => {
   const navigate = useNavigate();
   const { state, isStudent, className } = useContext(AuthContext);
@@ -16,12 +19,12 @@ const Courses = () => {
       try {
         if (isStudent) {
           const coursesResponse = await axios.get(
-            `http://localhost:1234/estudiante/cursos/${user.idestudiantes}`
+            `${domain}/estudiante/cursos/${user.idestudiantes}`
           );
           setCourses(coursesResponse.data.courses);
         } else {
           const coursesResponse = await axios.get(
-            `http://localhost:1234/profesor/cursos/${user.idprofesos}`
+            `${domain}/profesor/cursos/${user.idprofesos}`
           );
           setCourses(coursesResponse.data.courses);
         }
@@ -40,7 +43,7 @@ const Courses = () => {
       const newStudents = {};
       for (const course of courses) {
         const response = await axios.get(
-          `http://localhost:1234/profesor/cursos/estudiantes/${course.idcursos}`
+          `${domain}/profesor/cursos/estudiantes/${course.idcursos}`
         );
         newStudents[course.idcursos] = response.data.students[0].cantidad_estudiantes;
       }

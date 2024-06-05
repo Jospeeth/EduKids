@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 import { Background } from "../landingPage/Background.jsx";
 import { useContext, useState } from "react";
 import { capitalizeFirstLetter } from "../../lib/utils.js";
+import { domain } from "../../lib/utils.js";
 
 export function FormCourses() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export function FormCourses() {
    const descriptionFomated = capitalizeFirstLetter(description)
 
     try {
-        const response = await axios.post("http://localhost:1234/profesor/crear/curso", {
+        const response = await axios.post(`${domain}/profesor/crear/curso`, {
             titulo: titleFomated,
             idProfesor: user.idprofesos, 
             grado: grade,

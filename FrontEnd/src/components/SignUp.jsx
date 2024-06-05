@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Background } from "./landingPage/Background.jsx";
 import { capitalizeFirstLetter } from "../lib/utils.js";
-
+import { domain } from "../lib/utils.js";
 import { z } from "zod";
 import { useState } from "react";
 
@@ -111,8 +111,8 @@ const SignUp = () => {
           const celular = phone;
       
           const url = isStudent 
-              ? "http://localhost:1234/profesor/registrar/estudiante" 
-              : "http://localhost:1234/profesor/registrarse";
+              ? `${domain}/profesor/registrar/estudiante`
+              : `${domain}/profesor/registrarse`;
       
           try {
               const response = await axios.post(url, {

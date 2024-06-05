@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { Background } from "./landingPage/Background.jsx";
 import { useContext, useState } from "react";
+import { domain } from "../lib/utils.js";
 
 const SignUp = () => {
   const { dispatch } = useContext(AuthContext);
@@ -88,14 +89,14 @@ const SignUp = () => {
     const credentials = { correo: email, clave: password };
 
     const isTeacher = await handleSignIn(
-      "http://localhost:1234/profesor/iniciarsesion",
+      `${domain}/profesor/iniciarsesion`,
       credentials,
       "profesor"
     );
 
     if (!isTeacher) {
       const isStudent = await handleSignIn(
-        "http://localhost:1234/estudiante/iniciarsesion",
+        `${domain}/estudiante/iniciarsesion`,
         credentials,
         "estudiante"
       );

@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react";
 import { Background } from "../landingPage/Background";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { domain } from "../../lib/utils.js";
+
 const ClassContent = () => {
   const { state, isStudent } = useContext(AuthContext);
   const { user } = state;
@@ -16,8 +18,8 @@ const ClassContent = () => {
     const fetchClases = async () => {
       try {
         let url = isStudent
-          ? `http://localhost:1234/estudiante/clase/${id}`
-          : `http://localhost:1234/profesor/clase/${id}`;
+          ? `${domain}/estudiante/clase/${id}`
+          : `${domain}/profesor/clase/${id}`;
 
         const response = await axios.get(url);
 

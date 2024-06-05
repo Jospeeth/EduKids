@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Background } from "../landingPage/Background";
 import { capitalizeFirstLetter } from "../../lib/utils.js";
+import { domain } from "../../lib/utils.js";
 
 
 export function FormClasses() {
@@ -39,7 +40,7 @@ export function FormClasses() {
    const nameClassRefactored = capitalizeFirstLetter(nameClass)
 
     try {
-      const claseResponse = await axios.post("http://localhost:1234/profesor/clases", {
+       await axios.post(`${domain}/profesor/clases`, {
         nombreClase: nameClassRefactored,
         imagenClase: imageClass,
         idCurso: parseInt(id),

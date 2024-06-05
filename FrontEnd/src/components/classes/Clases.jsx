@@ -6,6 +6,7 @@ import { Card, CardContent, CardTitle, CardFooter } from "@ui/Card";
 import { Button } from "@ui/Button";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { domain } from "../../lib/utils.js";
 
 const Clases = () => {
   const { state, isStudent, className } = useContext(AuthContext);
@@ -19,13 +20,13 @@ const Clases = () => {
       try {
         if (isStudent) {
           const clasesResponse = await axios.get(
-            `http://localhost:1234/estudiante/clases/${id}`
+            `${domain}/estudiante/clases/${id}`
           );
           setClases(clasesResponse.data.classes);
           return;
         }
         const clasesResponse = await axios.get(
-          `http://localhost:1234/profesor/clases/curso/${id}`
+          `${domain}/profesor/clases/curso/${id}`
         );
         setClases(clasesResponse.data.classes);
       } catch (error) {

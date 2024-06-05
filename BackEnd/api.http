@@ -73,7 +73,7 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:1234/profesor/clases/curso/2
+GET https://edukids-server-1.vercel.app/profesor/clases/curso/2
 
 
 ###
