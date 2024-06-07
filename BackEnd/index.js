@@ -15,12 +15,10 @@ app.use(urlencoded({ extended: true }));
 app.use('/profesor', routersProfesor);
 app.use('/estudiante', routersStudent);
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'FrontEnd/dist')));
 
-// Handles any requests that don't match the ones above
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.sendFile(path.join(__dirname+'/FrontEnd/dist/index.html'));
 });
 
 const port = process.env.PORT ?? 1234;
