@@ -1,6 +1,5 @@
 import express, { json } from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { routersProfesor } from './routes/routesProfesor.js';
 import { routersStudent } from './routes/routesStudent.js';
 import { corsMiddleware } from './middlewares/cors.js';
