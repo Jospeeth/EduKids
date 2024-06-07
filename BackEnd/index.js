@@ -14,8 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/profesor', routersProfesor);
 app.use('/estudiante', routersStudent);
 
-app.use(express.static(frontend));
-
 
 const port = process.env.PORT ?? 1234;
 
