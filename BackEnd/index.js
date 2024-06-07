@@ -14,7 +14,7 @@ app.use(urlencoded({ extended: true }));
 
 app.use('/profesor', routersProfesor);
 app.use('/estudiante', routersStudent);
-
+ 
 app.use(express.static(path.join(__dirname, 'FrontEnd/dist')));
 
 app.get('*', (req, res) => {
