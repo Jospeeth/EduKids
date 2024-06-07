@@ -12,9 +12,8 @@
 
   const isProduction = window.location.hostname !== 'localhost';
  export  const domain = isProduction 
-    ? 'https://edukids-server-1.vercel.app/' 
+    ? 'https://edukids-server-1.vercel.app' 
     : 'http://localhost:1234';
   
-  const loginUrl = `${domain}/profesor/iniciarsesion`;
   
-  console.log(loginUrl);
+  console.log(domain);
