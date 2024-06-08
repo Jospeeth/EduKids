@@ -9,7 +9,6 @@ const app = express();
 app.disable('x-powered-by');
 app.use(json());
 app.use(corsMiddleware());
-app.use(urlencoded({ extended: true }));
 
 app.use('/profesor', routersProfesor);
 app.use('/estudiante', routersStudent);
