@@ -3,11 +3,6 @@ import { json, urlencoded } from 'express';
 import { routersProfesor } from './routes/routesProfesor.js';
 import { routersStudent } from './routes/routesStudent.js';
 import { corsMiddleware } from './middlewares/cors.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -19,11 +14,7 @@ app.use(urlencoded({ extended: true }));
 app.use('/profesor', routersProfesor);
 app.use('/estudiante', routersStudent);
  
-app.use(express.static(path.join(__dirname, 'FrontEnd/dist')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/FrontEnd/dist/index.html'));
-});
 
 const port = process.env.PORT ?? 1234;
 
